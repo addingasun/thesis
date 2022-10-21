@@ -125,6 +125,30 @@ var test_procedure = {
       },
     };
 
+//conditional timeout//
+
+var timeout_message = {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus:`
+    <p>Too slow! Press the F key faster (under 5 seconds).</p>
+    <p>Press any key to continue with the trials.</p>
+    <div style='width: 700px;'> 
+        </div>
+        ` ,
+};
+
+var conditional_node = {
+  timeline: [timeout_message], 
+  conditional_function: function(){
+    var last_trial =  jsPsych.data.getLastTrialData().values()[0].rt
+    if (last_trial == null) {
+        return true
+    } else {
+        return false
+    }
+ }
+};
+
 
 /* start from 0 instead of 1 for jsPsych because it's 0 indexed
 this sequence is the first 10 digits -1 from the current sequence produced on matlab with Sam's sequence code */
@@ -133,7 +157,7 @@ this sequence is the first 10 digits -1 from the current sequence produced on ma
         ];
 
     var trials_procedure = {
-        timeline: [trials],
+        timeline: [trials, conditional_node],
         timeline_variables: test_stimuli,
         randomize_order: false,
         post_trial_gap: 200,
@@ -146,33 +170,10 @@ this sequence is the first 10 digits -1 from the current sequence produced on ma
     };
     timeline.push(trials_procedure);
 
-//conditional timeout//
-var timeout_message = {
-    type: jsPsychHtmlKeyboardResponse,
-    stimulus:`
-    <p>Too slow! Press the F key fater (under 5 seconds)</p>
-    <div style='width: 700px;'> 
-        </div>
-        ` ,
-};
-
-var conditional_node = {
-  timeline: [timeout_message], 
-  conditional_function: function(){
-    var data = jsPsych.data.get().last(1).values()[0];
-    if (jsPsych.pluginAPI.compareKeys(data.response, null)){
-            return true;
-        } else {
-            return false;
-        }
-    }
-};
-jsPsych.run([trials, timeout_message, conditional_node]);
-
 
 //surprise actual task, questions on the fractals (how to not hard-code it?)//
 //instructions, maybe work on phrasing//
-    var question_instructions = {
+var question_instructions = {
         type: jsPsychHtmlKeyboardResponse,
         stimulus:`
         <p>Now there will be a few questions about the images that were presented.</p>
