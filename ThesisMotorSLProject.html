@@ -11,6 +11,13 @@
   <body></body>
   <script>
 
+//url parameter stuff//
+const url_params = new URL(window.location.href).searchParams
+
+const id = url_params.get('PROLIFIC_PID') || 'test'
+const group = url_params.get('group') || '2'
+const debug = url_params.get('debug') !== null
+
 /* initialize jsPsych */
 var jsPsych = initJsPsych({
       on_finish: function() {
@@ -19,7 +26,7 @@ var jsPsych = initJsPsych({
     });
 
 /* create timeline */
-    var timeline = [];
+    var timeline = []
 
 /*preload images*/
     var preload = {
@@ -36,23 +43,30 @@ var jsPsych = initJsPsych({
 
     timeline.push(welcome);
 
-/* define instructions trial (need alternate instructions for the 2 groups, all current instructions are for exp. group*/
-    var instructions = {
-      type: jsPsychHtmlKeyboardResponse,
-      stimulus: `
-        <p>In this experiment, you will be presented a series of fractal images 
+    grp1_instruct = `
+        <p>In this experiment, you will be presented a series of  images 
             and be asked to press a key for each one presented.</p>
         <p>Press the <strong>'F'</strong> key 
-            as each fractal image is presented. </p>
+            as each image is presented. </p>
             <p>When the blue cross shows up however, you are to press the <strong>'M'</strong> key.</p>
+            <p>You must press the correct key within 2 seconds</p>
         <p>There will be a set of practice trials before the experiment begins.</p>
         <div style='width: 700px;'>
         </div>
-        <p>Press any key to begin.</p>
-      `,
-      post_trial_gap: 2000
+        <p>Press the key <strong>'6'</strong> to begin the test trials.</p>
+      `
+    grp2_instruct = `GROUP 2`
+    let instruct = grp1_instruct
+    if (group === '2') {
+      instruct = grp2_instruct
+    }
+/* define instructions trial (need alternate instructions for the 2 groups, all current instructions are for exp. group*/
+    var instructions = {
+      type: jsPsychHtmlKeyboardResponse,
+      choices: ['6'],
+      stimulus: instruct,
+      post_trial_gap: 1000
     };
-
     timeline.push(instructions);
 
 /* define trial stimuli array for timeline variables */
@@ -69,7 +83,9 @@ var jsPsych = initJsPsych({
     var test = {
       type: jsPsychImageKeyboardResponse,
       stimulus: jsPsych.timelineVariable('stimulus'),
-      choices: ['f', 'j'],
+      choices: ['f', 'm'],
+      trial_duration: 2000,
+      response_ends_trial: false,
       data: {
         task: 'response',
         correct_response: jsPsych.timelineVariable('correct_response')
@@ -78,15 +94,42 @@ var jsPsych = initJsPsych({
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
       }
     };
+//timeout message//
+    var timeout_message = {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus:`
+    <p>Too slow! Press the F key faster (under 2 seconds).</p>
+    <p>Press the key <strong>'6'</strong> to continue with the trials.</p>
+    <div style='width: 700px;'> 
+        </div>
+        ` ,
+    choices: ['6'],
+    response_ends_trial: true,
+    correct_response: '6'
+};
 
+//timeout message for test trials, same as real trials//
+
+var test_conditional_node = {
+  timeline: [timeout_message], 
+  conditional_function: function(){
+    var last_test =  jsPsych.data.getLastTrialData().values()[0].rt
+    var previous_was_catch = jsPsych.data.getLastTrialData()// TO DO find this and set to correct response "m"
+    if (last_test == null && (group === "1" || previous_was_catch)) {
+        return true
+    } else {
+        return false
+    }
+ }
+};
 
 /* define test procedure */
 
 var test_procedure = {
-      timeline: [test],
+      timeline: [test, test_conditional_node],
       timeline_variables: test_stimuli,
       randomize_order: false,
-      post_trial_gap: 200,
+      post_trial_grap: 200,
       sample: {
         type: 'custom',
         fn: function(t){
@@ -98,46 +141,50 @@ var test_procedure = {
 
 // real set of trials code, sequenced with matlab sequence //
 
-    var trials_instructions = {
-        type: jsPsychHtmlKeyboardResponse,
-      stimulus: `
-        <p>You have completed the practice trials!</p>
-        <p>Now the experiment will begin, it will be the same as the practice trials.</p>
-        <div style='width: 700px;'>
-        </div>
-        <p>Press any key to begin.</p>
-      `,
-      post_trial_gap: 2000
-    };
-    timeline.push(trials_instructions);
 
 
 //real trials//
+  let f_count = 0;
     var trials = {
         type: jsPsychImageKeyboardResponse,
         stimulus: jsPsych.timelineVariable('stimulus'),
-        choices: ['f', 'j'],
-        trial_duration: 5000,
+        choices: ['f', 'm'],
+        response_ends_trial: false,
+        trial_duration: 2000,
         data: {
             task: 'response',
             correct_response: jsPsych.timelineVariable('correct_response')
+        },
+        on_start: function(trial) {
+          f_count = 0;
         },
         on_finish: function(data){
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
       },
     };
 
-//conditional timeout//
+    //f key logging//
+    const logFkey = (evt) => {
+      if (evt.key === "f") {
+        f_count++;
+        console.log(f_count);
+      }
+    };
 
-var timeout_message = {
-    type: jsPsychHtmlKeyboardResponse,
-    stimulus:`
-    <p>Too slow! Press the F key faster (under 5 seconds).</p>
-    <p>Press any key to continue with the trials.</p>
-    <div style='width: 700px;'> 
-        </div>
-        ` ,
-};
+    document.addEventListener('keydown', logFkey);
+
+    var keylog = {
+      timeline: [timeout_message],
+      conditional_function: function(){
+        if (f_count > 0) {
+          return true
+        } else {
+          return false
+        }
+      }
+    };
+
+//conditional timeout message//
 
 var conditional_node = {
   timeline: [timeout_message], 
@@ -151,7 +198,18 @@ var conditional_node = {
  }
 };
 
-
+var trials_instructions = {
+        type: jsPsychHtmlKeyboardResponse,
+      stimulus: `
+        <p>You have completed the practice trials!</p>
+        <p>Now the experiment will begin, it will be the same as the practice trials.</p>
+        <div style='width: 700px;'>
+        </div>
+        <p>Press any key to begin.</p>
+      `,
+      post_trial_gap: 2000
+    };
+    timeline.push(trials_instructions)
 
 
 /* start from 0 instead of 1 for jsPsych because it's 0 indexed
@@ -159,6 +217,11 @@ this sequence is the first 10 digits -1 from the current sequence produced on ma
     var sequence = [
         1,	3,	0,	2,	3,	0,  4,	1,	2,	3,	1,
         ];
+
+        
+    if (!debug) {
+      sequence = [1]
+    }
 
     var trials_procedure = {
         timeline: [trials, conditional_node],
@@ -251,9 +314,14 @@ var question_instructions = {
             var question_1 = jsPsych.data.get().filter({task: 'question_response'});
             var correct_trials = question_1.filter({correct: true});
             var accuracy = Math.round(correct_trials.count() / question_1.count() * 100);
-            var attention_accuracy = Math.round(correct_tri)
+
+            var attention_check = jsPsych.data.get().filter({task: 'response'});
+            var attention_performance = attention_check.filter({correct: true});
+            var attention_accuracy = Math.round(attention_performance.count() / attention_check.count() * 100);
+    
 
     return `<p>You responded correctly on ${accuracy}% of the questions.</p>
+    <p>You responded correctly on ${attention_accuracy}% of the total trials, including the attention checks.</p>
       <p>Press any key to complete the experiment. Thank you!</p>`;
         }
     };
