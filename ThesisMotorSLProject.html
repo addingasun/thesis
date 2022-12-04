@@ -55,11 +55,17 @@ var jsPsych = initJsPsych({
         </div>
         <p>Press the key <strong>'6'</strong> to begin the test trials.</p>
       `
-    grp2_instruct = `GROUP 2`
+    grp2_instruct = `<p>In this experiment, you will be presented a series of images.</p>
+            <p>Simply watch the images, but when the blue cross shows up you are to press the <strong>'M'</strong> key.</p>
+            <p>You must press the correct key within 2 seconds</p>
+        <p>There will be a set of practice trials before the experiment begins.</p>
+        <div style='width: 700px;'>
+        </div>
+        <p>Press the key <strong>'6'</strong> to begin the test trials.</p>`
     let instruct = grp1_instruct
     if (group === '2') {
       instruct = grp2_instruct
-    }
+    };
 /* define instructions trial (need alternate instructions for the 2 groups, all current instructions are for exp. group*/
     var instructions = {
       type: jsPsychHtmlKeyboardResponse,
@@ -78,6 +84,88 @@ var jsPsych = initJsPsych({
       { stimulus: "attention_check.png", correct_response: 'm'}
     ];
 
+//m keylog
+
+const logMKey = (evt) => {
+      if (evt.key === "m") {
+        m_count++;
+        console.log(m_count)
+    }
+  };
+  
+  document.addEventListener('keydown', logMKey)
+
+
+  //key warnings//
+    var m_key_warning = {
+      type: jsPsychHtmlKeyboardResponse,
+      correct_response: '6',
+      stimulus: `
+        <p>Whoops! You've been pressing the <strong>'m'</strong> key too much.</p>
+        <p>Make sure to only press it once when the blue cross appears</p>
+        <p>Press <strong>'6'</strong> to continue.</p>
+      `,
+      choices: ['6'],
+      correct_response: '6',
+      post_trial_gap: 1000
+    };
+
+    var f_key_warning = {
+      type: jsPsychHtmlKeyboardResponse,
+      correct_response: '6',
+      stimulus: `
+        <p>Whoops! You've been pressing the <strong>'f'</strong> key too much.</p>
+        <p>Make sure to only press it once when the circles appear.</p>
+        <p>Press <strong>'6'</strong> to continue.</p>
+      `,
+      choices: ['6'],
+      correct_response: '6',
+      post_trial_gap: 1000
+    };
+
+    //f key logging//
+    const logFkey = (evt) => {
+      if (evt.key === "f") {
+        f_count++;
+        console.log(f_count);
+      }
+    };
+
+    document.addEventListener('keydown', logFkey);
+
+    var keylog_f = {
+      timeline: [timeout_message],
+      conditional_function: function(){
+        if (f_count > 0) {
+          return true
+        } else {
+          return false
+        }
+      }
+    };
+
+    var keylog_m = {
+      timeline: [m_key_warning],
+      conditional_function: function(){
+        if (m_count > 1) {
+          return true
+        } else {
+          return false
+        }
+      }
+    };
+
+    var keylog_f = {
+      timeline: [f_key_warning],
+      conditional_function: function(){
+        if (f_count > 1) {
+          return true
+        } else {
+          return false
+        }
+      }
+    };
+
 /* define test trials */
 
     var test = {
@@ -90,15 +178,42 @@ var jsPsych = initJsPsych({
         task: 'response',
         correct_response: jsPsych.timelineVariable('correct_response')
       },
+      on_start: function(trial) {
+          f_count = 0;
+          m_count = 0;
+        },
       on_finish: function(data){
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
       }
+    };
+
+    var test_grp2 = {
+      type: jsPsychImageKeyboardResponse,
+      stimulus: jsPsych.timelineVariable('stimulus'),
+      choices: ['m'],
+      trial_duration: 2000,
+      response_ends_trial: false,
+      data: {
+        task: 'response',
+        correct_response: jsPsych.timelineVariable('correct_response')
+      },
+      on_start: function(trial) {
+          f_count = 0;
+          m_count = 0;
+        },
+      on_finish: function(data){
+        data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
+      }
+    };
+    let practice_trials = test
+    if (group === '2') {
+      practice_trials = test_grp2
     };
 //timeout message//
     var timeout_message = {
     type: jsPsychHtmlKeyboardResponse,
     stimulus:`
-    <p>Too slow! Press the F key faster (under 2 seconds).</p>
+    <p>Too slow! Press the correct key faster (under 2 seconds).</p>
     <p>Press the key <strong>'6'</strong> to continue with the trials.</p>
     <div style='width: 700px;'> 
         </div>
@@ -126,14 +241,14 @@ var test_conditional_node = {
 /* define test procedure */
 
 var test_procedure = {
-      timeline: [test, test_conditional_node],
+      timeline: [test, test_conditional_node, keylog_m, keylog_f],
       timeline_variables: test_stimuli,
       randomize_order: false,
       post_trial_grap: 200,
       sample: {
         type: 'custom',
         fn: function(t){
-            return sequence;
+            return test_sequence;
         }
       }
     };
@@ -145,6 +260,7 @@ var test_procedure = {
 
 //real trials//
   let f_count = 0;
+  let m_count = 0;
     var trials = {
         type: jsPsychImageKeyboardResponse,
         stimulus: jsPsych.timelineVariable('stimulus'),
@@ -157,32 +273,13 @@ var test_procedure = {
         },
         on_start: function(trial) {
           f_count = 0;
+          m_count = 0;
         },
         on_finish: function(data){
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
       },
     };
 
-    //f key logging//
-    const logFkey = (evt) => {
-      if (evt.key === "f") {
-        f_count++;
-        console.log(f_count);
-      }
-    };
-
-    document.addEventListener('keydown', logFkey);
-
-    var keylog = {
-      timeline: [timeout_message],
-      conditional_function: function(){
-        if (f_count > 0) {
-          return true
-        } else {
-          return false
-        }
-      }
-    };
 
 //conditional timeout message//
 
@@ -190,7 +287,8 @@ var conditional_node = {
   timeline: [timeout_message], 
   conditional_function: function(){
     var last_trial =  jsPsych.data.getLastTrialData().values()[0].rt
-    if (last_trial == null) {
+    var previous_was_catch = jsPsych.data.getLastTrialData()// TO DO find this and set to correct response "m"
+    if (last_trial == null && (group === "1" || previous_was_catch)) {
         return true
     } else {
         return false
@@ -205,8 +303,10 @@ var trials_instructions = {
         <p>Now the experiment will begin, it will be the same as the practice trials.</p>
         <div style='width: 700px;'>
         </div>
-        <p>Press any key to begin.</p>
+        <p>Press the key <strong>'6'</strong> to begin.</p>
       `,
+      choices: ['6'],
+      correct_response: '6',
       post_trial_gap: 2000
     };
     timeline.push(trials_instructions)
@@ -214,17 +314,23 @@ var trials_instructions = {
 
 /* start from 0 instead of 1 for jsPsych because it's 0 indexed
 this sequence is the first 10 digits -1 from the current sequence produced on matlab with Sam's sequence code */
+
     var sequence = [
         1,	3,	0,	2,	3,	0,  4,	1,	2,	3,	1,
         ];
 
-        
+//short sequence to be used for practice set of trials//
+    var test_sequence = [
+        1,	3,	0,	2,	3,	0,  4,	1,	2,	3,	1,
+    ];
+
+    //add full sequence here for practice runs of full length! make sure practice trials run with shorter sequence//
     if (!debug) {
-      sequence = [1]
+      sequence = [1,	3,	0,	2,	3,	0,  4,	1,	2,	3,	1]
     }
 
     var trials_procedure = {
-        timeline: [trials, conditional_node],
+        timeline: [trials, conditional_node, keylog_m, keylog_f],
         timeline_variables: test_stimuli,
         randomize_order: false,
         post_trial_gap: 200,
