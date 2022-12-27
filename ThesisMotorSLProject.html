@@ -11,7 +11,7 @@
   <body></body>
   <script>
 
-//url parameter stuff//
+//url parameter stuff, do ?group or other parameter stuff to use it
 const url_params = new URL(window.location.href).searchParams
 
 const id = url_params.get('PROLIFIC_PID') || 'test'
@@ -172,7 +172,7 @@ const logMKey = (evt) => {
       type: jsPsychImageKeyboardResponse,
       stimulus: jsPsych.timelineVariable('stimulus'),
       choices: ['f', 'm'],
-      trial_duration: 2000,
+      trial_duration: 1000,
       response_ends_trial: false,
       data: {
         task: 'response',
@@ -191,7 +191,7 @@ const logMKey = (evt) => {
       type: jsPsychImageKeyboardResponse,
       stimulus: jsPsych.timelineVariable('stimulus'),
       choices: ['m'],
-      trial_duration: 2000,
+      trial_duration: 1000,
       response_ends_trial: false,
       data: {
         task: 'response',
@@ -220,7 +220,20 @@ const logMKey = (evt) => {
         ` ,
     choices: ['6'],
     response_ends_trial: true,
-    correct_response: '6'
+    correct_response: '6',
+};
+
+var m_timeout_message = {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus:`
+    <p>Too slow! Press the <strong>'m'</strong> key (under 2 seconds).</p>
+    <p>Press the key <strong>'6'</strong> to continue with the trials.</p>
+    <div style='width: 700px;'> 
+        </div>
+        ` ,
+    choices: ['6'],
+    response_ends_trial: true,
+    correct_response: '6',
 };
 
 //timeout message for test trials, same as real trials//
@@ -228,9 +241,9 @@ const logMKey = (evt) => {
 var test_conditional_node = {
   timeline: [timeout_message], 
   conditional_function: function(){
-    var last_test =  jsPsych.data.getLastTrialData().values()[0].rt
-    var previous_was_catch = jsPsych.data.getLastTrialData()// TO DO find this and set to correct response "m"
-    if (last_test == null && (group === "1" || previous_was_catch)) {
+    var last_trial =  jsPsych.data.getLastTrialData().values()[0].rt
+    var previous_was_catch = jsPsych.data.getLastTrialData().filter({rt: null, correct_response: 'm'}).count()
+    if (last_trial == null && (group === "1" || previous_was_catch > 0)) {
         return true
     } else {
         return false
@@ -238,10 +251,13 @@ var test_conditional_node = {
  }
 };
 
+
+
 /* define test procedure */
 
+
 var test_procedure = {
-      timeline: [test, test_conditional_node, keylog_m, keylog_f],
+      timeline: [test, test_conditional_node, keylog_f, keylog_m],
       timeline_variables: test_stimuli,
       randomize_order: false,
       post_trial_grap: 200,
@@ -266,7 +282,8 @@ var test_procedure = {
         stimulus: jsPsych.timelineVariable('stimulus'),
         choices: ['f', 'm'],
         response_ends_trial: false,
-        trial_duration: 2000,
+        trial_duration: 1000,
+        post_trial_gap: 1000,
         data: {
             task: 'response',
             correct_response: jsPsych.timelineVariable('correct_response')
@@ -287,8 +304,8 @@ var conditional_node = {
   timeline: [timeout_message], 
   conditional_function: function(){
     var last_trial =  jsPsych.data.getLastTrialData().values()[0].rt
-    var previous_was_catch = jsPsych.data.getLastTrialData()// TO DO find this and set to correct response "m"
-    if (last_trial == null && (group === "1" || previous_was_catch)) {
+    var previous_was_catch = jsPsych.data.getLastTrialData().filter({rt: null, correct_response: 'm'}).count()
+    if (last_trial == null && (group === "1" || previous_was_catch > 0)) {
         return true
     } else {
         return false
@@ -326,8 +343,12 @@ this sequence is the first 10 digits -1 from the current sequence produced on ma
 
     //add full sequence here for practice runs of full length! make sure practice trials run with shorter sequence//
     if (!debug) {
-      sequence = [1,	3,	0,	2,	3,	0,  4,	1,	2,	3,	1]
-    }
+      sequence = [1, 2,	0,	1,	2, 4,	0,	1,	2,	3,	0, 4,	1,	2,	0,	2,	3,	0,	1,	2,	4, 0,	1,	2,	3,	0,	
+      2,	3,	1,	2,	4, 3,	0,	1,	3,	0,	1,	3,	0, 4,	2,	3,	1,	3,	0,	2,	3,	0,	1,	2,	3,	0,	2,	3,	
+      0,	1,	2,	3,	0,	2, 4,	3,	1,	2,	3,	1,	2,	3,	0,	
+      1,	2, 4,	3,	1,	2,	3,	0,	1,	2,	3, 4,	0,	1,	3,	0,	1,	2,	3,	0,	1,	4, 2,	
+      0,	1,	2,	0,	1,	3,	0,	1,	3,	0,	1,	4, 2,	3,	1,	2,	3,	0,	1]
+    };
 
     var trials_procedure = {
         timeline: [trials, conditional_node, keylog_m, keylog_f],
