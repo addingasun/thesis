@@ -31,7 +31,7 @@ var jsPsych = initJsPsych({
 /*preload images*/
     var preload = {
       type: jsPsychPreload,
-      images: ['attention_check.png', 'tan_fractal.png', 'orange_fractal.png', 'pink_fractal.png', 'green_fractal.png']
+      images: ['attention_check.png', 'stim_0.png', 'stim_1.png', 'stim_2.png', 'stim_3.png']
     };
     timeline.push(preload); 
 
@@ -77,10 +77,10 @@ var jsPsych = initJsPsych({
 
 /* define trial stimuli array for timeline variables */
         var test_stimuli = [
-      { stimulus: "tan_fractal.png",  correct_response: 'f'},
-      { stimulus: "orange_fractal.png",  correct_response: 'f'},
-      { stimulus: "green_fractal.png",  correct_response: 'f'},
-      { stimulus: "pink_fractal.png",  correct_response: 'f'},
+      { stimulus: "stim_0.png",  correct_response: 'f'},
+      { stimulus: "stim_1.png",  correct_response: 'f'},
+      { stimulus: "stim_2.png",  correct_response: 'f'},
+      { stimulus: "stim_3.png",  correct_response: 'f'},
       { stimulus: "attention_check.png", correct_response: 'm'}
     ];
 
@@ -260,7 +260,7 @@ var test_procedure = {
       timeline: [test, test_conditional_node, keylog_f, keylog_m],
       timeline_variables: test_stimuli,
       randomize_order: false,
-      post_trial_grap: 200,
+      post_trial_grap: 1000,
       sample: {
         type: 'custom',
         fn: function(t){
@@ -354,7 +354,7 @@ this sequence is the first 10 digits -1 from the current sequence produced on ma
         timeline: [trials, conditional_node, keylog_m, keylog_f],
         timeline_variables: test_stimuli,
         randomize_order: false,
-        post_trial_gap: 200,
+        post_trial_gap: 100,
         sample: {
             type: 'custom',
             fn: function(t){
@@ -365,7 +365,8 @@ this sequence is the first 10 digits -1 from the current sequence produced on ma
     timeline.push(trials_procedure);
 
 
-//surprise actual task, questions on the fractals (how to not hard-code it?)//
+//surprise actual task, questions on the fractals (how to not hard-code it?) might just be better to hardcode a series of 
+//questions rather than make adjustable, can just have same questions for every participant//
 //instructions, maybe work on phrasing//
 var question_instructions = {
         type: jsPsychHtmlKeyboardResponse,
@@ -381,25 +382,28 @@ var question_instructions = {
 
 //define question task stimuli array//
     var question_stimuli = [
-        {stimulus: "tan_fractal.png"},
-        {stimulus: "orange_fractal.png"},
-        {stimulus: "green_fractal.png"},
-        {stimulus: "pink_fractal.png"},
+        {stimulus: "stim_0.png"},
+        {stimulus: "stim_1.png"},
+        {stimulus: "stim_2.png"},
+        {stimulus: "stim_3.png"},
     ];
 
 
 //sample questions, work on crafting this before doing the full 12 possible questions w 4 repeats (48 total), how to not hardcode ?//
+    
+
     const question_1 = {
-    type: jsPsychHtmlKeyboardResponse,
-    stimulus: `<img src = "tan_fractal.png"></img>
-                    <p>Which of the following images is most likely to come after the image above?</p>
+        type: jsPsychHtmlKeyboardResponse,
+    stimulus: `<img src = "stim_2.png"></img>
+                    <p>Which of the following images is most likely to appear after the image above?</p>
                     <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
-                    <img src="green_fractal.png"></img>
-                    <img src="orange_fractal.png"></img>
+                    <p>or press <strong>'b'</strong> for neither.<p>
+                    <img src="stim_2.png"></img>
+                    <img src="stim_0.png"></img>
                     `,
-    post_trial_gap: 200,
-   choices: ['f', 'j'],
+    post_trial_gap: 1000,
+   choices: ['f', 'j', 'b'],
       data: {
         task: 'question_response',
         correct_response: 'f'
@@ -411,16 +415,17 @@ var question_instructions = {
     timeline.push(question_1);
 
     const question_2 = {
-        type: jsPsychHtmlKeyboardResponse,
-    stimulus: `<img src = "green_fractal.png"></img>
-                    <p>Which of the following images is most likely to come after the image above?</p>
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus: `<img src = "stim_0.png"></img>
+                    <p>Which of the following images is most likely to appear after the image above?</p>
                     <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
-                    <img src="orange_fractal.png"></img>
-                    <img src="tan_fractal.png"></img>
+                    <p>or press <strong>'b'</strong> for neither.<p>
+                    <img src="stim_2.png"></img>
+                    <img src="stim_1.png"></img>
                     `,
-    post_trial_gap: 200,
-   choices: ['f', 'j'],
+    post_trial_gap: 1000,
+   choices: ['f', 'j', 'b'],
       data: {
         task: 'question_response',
         correct_response: 'j'
@@ -431,6 +436,227 @@ var question_instructions = {
     };
     timeline.push(question_2);
 
+    const question_3 = {
+        type: jsPsychHtmlKeyboardResponse,
+    stimulus: `<img src = "stim_2.png"></img>
+                    <p>Which of the following images is most likely to appear after the image above?</p>
+                    <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
+                    <p>or press <strong>'b'</strong> for neither.<p>
+                    <img src="stim_1.png"></img>
+                    <img src="stim_0.png"></img>
+                    `,
+    post_trial_gap: 1000,
+   choices: ['f', 'j', 'b'],
+      data: {
+        task: 'question_response',
+        correct_response: 'b'
+      },
+      on_finish: function(data){
+        data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
+      }
+    };
+    timeline.push(question_3);
+
+    const question_4 = {
+        type: jsPsychHtmlKeyboardResponse,
+    stimulus: `<img src = "stim_1.png"></img>
+                    <p>Which of the following images is most likely to appear after the image above?</p>
+                    <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
+                    <p>or press <strong>'b'</strong> for neither.<p>
+                    <img src="stim_3.png"></img>
+                    <img src="stim_0.png"></img>
+                    `,
+    post_trial_gap: 1000,
+   choices: ['f', 'j', 'b'],
+      data: {
+        task: 'question_response',
+        correct_response: 'b'
+      },
+      on_finish: function(data){
+        data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
+      }
+    };
+    timeline.push(question_4);
+
+    const question_5 = {
+        type: jsPsychHtmlKeyboardResponse,
+    stimulus: `<img src = "stim_2.png"></img>
+                    <p>Which of the following images is most likely to appear after the image above?</p>
+                    <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
+                    <p>or press <strong>'b'</strong> for neither.<p>
+                    <img src="stim_1.png"></img>
+                    <img src="stim_0.png"></img>
+                    `,
+    post_trial_gap: 1000,
+   choices: ['f', 'j', 'b'],
+      data: {
+        task: 'question_response',
+        correct_response: 'b'
+      },
+      on_finish: function(data){
+        data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
+      }
+    };
+    timeline.push(question_5);
+
+    const question_6 = {
+        type: jsPsychHtmlKeyboardResponse,
+    stimulus: `<img src = "stim_3.png"></img>
+                    <p>Which of the following images is most likely to appear after the image above?</p>
+                    <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
+                    <p>or press <strong>'b'</strong> for neither.<p>
+                    <img src="stim_0.png"></img>
+                    <img src="stim_1.png"></img>
+                    `,
+    post_trial_gap: 1000,
+   choices: ['f', 'j', 'b'],
+      data: {
+        task: 'question_response',
+        correct_response: 'f'
+      },
+      on_finish: function(data){
+        data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
+      }
+    };
+    timeline.push(question_6);
+
+
+    const question_7 = {
+        type: jsPsychHtmlKeyboardResponse,
+    stimulus: `<img src = "stim_0.png"></img>
+                    <p>Which of the following images is most likely to appear after the image above?</p>
+                    <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
+                    <p>or press <strong>'b'</strong> for neither.<p>
+                    <img src="stim_3.png"></img>
+                    <img src="stim_2.png"></img>
+                    `,
+    post_trial_gap: 1000,
+   choices: ['f', 'j', 'b'],
+      data: {
+        task: 'question_response',
+        correct_response: 'b'
+      },
+      on_finish: function(data){
+        data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
+      }
+    };
+    timeline.push(question_7);
+
+    const question_8 = {
+        type: jsPsychHtmlKeyboardResponse,
+    stimulus: `<img src = "stim_2.png"></img>
+                    <p>Which of the following images is most likely to appear after the image above?</p>
+                    <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
+                    <p>or press <strong>'b'</strong> for neither.<p>
+                    <img src="stim_3.png"></img>
+                    <img src="stim_1.png"></img>
+                    `,
+    post_trial_gap: 1000,
+   choices: ['f', 'j', 'b'],
+      data: {
+        task: 'question_response',
+        correct_response: 'f'
+      },
+      on_finish: function(data){
+        data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
+      }
+    };
+    timeline.push(question_8);
+
+    const question_9 = {
+        type: jsPsychHtmlKeyboardResponse,
+    stimulus: `<img src = "stim_3.png"></img>
+                    <p>Which of the following images is most likely to appear after the image above?</p>
+                    <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
+                    <p>or press <strong>'b'</strong> for neither.<p>
+                    <img src="stim_2.png"></img>
+                    <img src="stim_1.png"></img>
+                    `,
+    post_trial_gap: 1000,
+   choices: ['f', 'j', 'b'],
+      data: {
+        task: 'question_response',
+        correct_response: 'b'
+      },
+      on_finish: function(data){
+        data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
+      }
+    };
+    timeline.push(question_9);
+
+    const question_10 = {
+        type: jsPsychHtmlKeyboardResponse,
+    stimulus: `<img src = "stim_1.png"></img>
+                    <p>Which of the following images is most likely to appear after the image above?</p>
+                    <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
+                    <p>or press <strong>'b'</strong> for neither.<p>
+                    <img src="stim_0.png"></img>
+                    <img src="stim_2.png"></img>
+                    `,
+    post_trial_gap: 1000,
+   choices: ['f', 'j', 'b'],
+      data: {
+        task: 'question_response',
+        correct_response: 'j'
+      },
+      on_finish: function(data){
+        data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
+      }
+    };
+    timeline.push(question_10);
+
+    const question_11 = {
+        type: jsPsychHtmlKeyboardResponse,
+    stimulus: `<img src = "stim_0.png"></img>
+                    <p>Which of the following images is most likely to appear after the image above?</p>
+                    <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
+                    <p>or press <strong>'b'</strong> for neither.<p>
+                    <img src="stim_1.png"></img>
+                    <img src="stim_3.png"></img>
+                    `,
+    post_trial_gap: 1000,
+   choices: ['f', 'j', 'b'],
+      data: {
+        task: 'question_response',
+        correct_response: 'f'
+      },
+      on_finish: function(data){
+        data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
+      }
+    };
+    timeline.push(question_11);
+
+    const question_12 = {
+        type: jsPsychHtmlKeyboardResponse,
+    stimulus: `<img src = "stim_3.png"></img>
+                    <p>Which of the following images is most likely to appear after the image above?</p>
+                    <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
+                    <p>or press <strong>'b'</strong> for neither.<p>
+                    <img src="stim_2.png"></img>
+                    <img src="stim_0.png"></img>
+                    `,
+    post_trial_gap: 1000,
+   choices: ['f', 'j', 'b'],
+      data: {
+        task: 'question_response',
+        correct_response: 'j'
+      },
+      on_finish: function(data){
+        data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
+      }
+    };
+    timeline.push(question_12);
+
 
     //data debrief section, correct responses are being collected properly i think//
 
@@ -438,20 +664,30 @@ var question_instructions = {
         type:jsPsychHtmlKeyboardResponse,
         stimulus: function() {
 
-            var question_1 = jsPsych.data.get().filter({task: 'question_response'});
-            var correct_trials = question_1.filter({correct: true});
-            var accuracy = Math.round(correct_trials.count() / question_1.count() * 100);
+            var questions = jsPsych.data.get().filter({task: 'question_response'});
+            var correct_trials = questions.filter({correct: true});
+            var accuracy = Math.round(correct_trials.count() / questions.count() * 100);
 
             var attention_check = jsPsych.data.get().filter({task: 'response'});
             var attention_performance = attention_check.filter({correct: true});
             var attention_accuracy = Math.round(attention_performance.count() / attention_check.count() * 100);
-    
+
+            var control_trials = jsPsych.data.get().filter({correct_response: 'm'})
+            var control_performance = control_trials.filter({correct:true});
+            var control_accuracy = Math.round(control_performance.count() / control_trials.count() * 100)
+          let feedback = attention_accuracy
+          if (group === '2') {
+      feedback = control_accuracy
+    };
 
     return `<p>You responded correctly on ${accuracy}% of the questions.</p>
     <p>You responded correctly on ${attention_accuracy}% of the total trials, including the attention checks.</p>
+    <p>Control group responded correctly on ${control_accuracy}% of the attention check trials. Good job!</p>
       <p>Press any key to complete the experiment. Thank you!</p>`;
         }
     };
+    
+
     timeline.push(debrief_block);
 
 
