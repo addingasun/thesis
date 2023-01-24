@@ -396,12 +396,13 @@ var question_instructions = {
 
     const question_1 = {
         type: jsPsychHtmlKeyboardResponse,
-    stimulus: `<img src = "stim_2_questions.png"></img>
+    stimulus: `<img src = "stim_1_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
                     <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
-                    <p>or press <strong>'b'</strong> for neither.<p>
                     <img src="stim_2_questions.png"></img>
+                    <img src="stim_3_questions.png"></img>
                     <img src="stim_0_questions.png"></img>
                     `,
     post_trial_gap: 1000,
@@ -421,9 +422,10 @@ var question_instructions = {
     stimulus: `<img src = "stim_0_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
                     <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
-                    <p>or press <strong>'b'</strong> for neither.<p>
                     <img src="stim_2_questions.png"></img>
+                    <img src="stim_3_questions.png"></img>
                     <img src="stim_1_questions.png"></img>
                     `,
     post_trial_gap: 1000,
@@ -443,9 +445,10 @@ var question_instructions = {
     stimulus: `<img src = "stim_2_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
                     <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
-                    <p>or press <strong>'b'</strong> for neither.<p>
                     <img src="stim_1_questions.png"></img>
+                    <img src="stim_3_questions.png"></img>
                     <img src="stim_0_questions.png"></img>
                     `,
     post_trial_gap: 1000,
@@ -465,9 +468,10 @@ var question_instructions = {
     stimulus: `<img src = "stim_1_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
                     <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
-                    <p>or press <strong>'b'</strong> for neither.<p>
                     <img src="stim_3_questions.png"></img>
+                    <img src="stim_2_questions.png"></img>
                     <img src="stim_0_questions.png"></img>
                     `,
     post_trial_gap: 1000,
@@ -487,16 +491,17 @@ var question_instructions = {
     stimulus: `<img src = "stim_2_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
                     <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
-                    <p>or press <strong>'b'</strong> for neither.<p>
                     <img src="stim_1_questions.png"></img>
                     <img src="stim_0_questions.png"></img>
+                    <img src="stim_3_questions.png"></img>
                     `,
     post_trial_gap: 1000,
    choices: ['f', 'j', 'b'],
       data: {
         task: 'question_response',
-        correct_response: 'b'
+        correct_response: 'j'
       },
       on_finish: function(data){
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
@@ -509,10 +514,11 @@ var question_instructions = {
     stimulus: `<img src = "stim_3_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
                     <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
-                    <p>or press <strong>'b'</strong> for neither.<p>
                     <img src="stim_0_questions.png"></img>
                     <img src="stim_1_questions.png"></img>
+                    <img src="stim_2_questions.png"></img>
                     `,
     post_trial_gap: 1000,
    choices: ['f', 'j', 'b'],
@@ -532,9 +538,10 @@ var question_instructions = {
     stimulus: `<img src = "stim_0_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
                     <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
-                    <p>or press <strong>'b'</strong> for neither.<p>
                     <img src="stim_3_questions.png"></img>
+                    <img src="stim_1_questions.png"></img>
                     <img src="stim_2_questions.png"></img>
                     `,
     post_trial_gap: 1000,
@@ -554,9 +561,10 @@ var question_instructions = {
     stimulus: `<img src = "stim_2_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
                     <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
-                    <p>or press <strong>'b'</strong> for neither.<p>
                     <img src="stim_3_questions.png"></img>
+                    <img src="stim_0_questions.png"></img>
                     <img src="stim_1_questions.png"></img>
                     `,
     post_trial_gap: 1000,
@@ -576,9 +584,10 @@ var question_instructions = {
     stimulus: `<img src = "stim_3_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
                     <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
-                    <p>or press <strong>'b'</strong> for neither.<p>
                     <img src="stim_2_questions.png"></img>
+                    <img src="stim_0_questions.png"></img>
                     <img src="stim_1_questions.png"></img>
                     `,
     post_trial_gap: 1000,
@@ -598,9 +607,11 @@ var question_instructions = {
     stimulus: `<img src = "stim_1_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
                     <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
                     <p>or press <strong>'b'</strong> for neither.<p>
                     <img src="stim_0_questions.png"></img>
+                    <img src="stim_3_questions.png"></img>
                     <img src="stim_2_questions.png"></img>
                     `,
     post_trial_gap: 1000,
@@ -620,9 +631,10 @@ var question_instructions = {
     stimulus: `<img src = "stim_0_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
                     <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
-                    <p>or press <strong>'b'</strong> for neither.<p>
                     <img src="stim_1_questions.png"></img>
+                    <img src="stim_2_questions.png"></img>
                     <img src="stim_3_questions.png"></img>
                     `,
     post_trial_gap: 1000,
@@ -642,9 +654,11 @@ var question_instructions = {
     stimulus: `<img src = "stim_3_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
                     <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
                     <p>or press <strong>'b'</strong> for neither.<p>
                     <img src="stim_2_questions.png"></img>
+                    <img src="stim_1_questions.png"></img>
                     <img src="stim_0_questions.png"></img>
                     `,
     post_trial_gap: 1000,
