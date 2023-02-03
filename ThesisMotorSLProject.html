@@ -14,6 +14,7 @@
 //url parameter stuff, do ?group or other parameter stuff to use it
 const url_params = new URL(window.location.href).searchParams
 
+
 const id = url_params.get('PROLIFIC_PID') || 'test'
 const group = url_params.get('group') || '2'
 const debug = url_params.get('debug') !== null
@@ -21,9 +22,21 @@ const debug = url_params.get('debug') !== null
 /* initialize jsPsych */
 var jsPsych = initJsPsych({
       on_finish: function() {
+        var a = document.createElement("a");
+      var file = new Blob([JSON.stringify(trials)], { type: "text/plain" });
+      a.href = URL.createObjectURL(file);
+      a.download = `data_${JSON.stringify(new Date())}.json`;
+      a.click();
+      URL.revokeObjectURL(a.href);
         jsPsych.data.displayData();
       }
     });
+
+  jsPsych.data.addProperties({
+    subject_id: id,
+    group: group,
+    debug: debug
+  });
 
 /* create timeline */
     var timeline = []
