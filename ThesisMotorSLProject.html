@@ -93,7 +93,6 @@ const logMKey = (evt) => {
         console.log(m_count)
     }
   };
-  
   document.addEventListener('keydown', logMKey)
 
 
@@ -134,10 +133,15 @@ const logMKey = (evt) => {
 
     document.addEventListener('keydown', logFkey);
 
+
+let timeout_hit = 0
+
     var keylog_f = {
       timeline: [timeout_message],
       conditional_function: function(){
         if (f_count > 0) {
+          timeout_hit++;
+          console.log(timeout_hit)
           return true
         } else {
           return false
@@ -149,6 +153,8 @@ const logMKey = (evt) => {
       timeline: [m_key_warning],
       conditional_function: function(){
         if (m_count > 1) {
+          timeout_hit++;
+          console.log(timeout_hit)
           return true
         } else {
           return false
@@ -160,12 +166,15 @@ const logMKey = (evt) => {
       timeline: [f_key_warning],
       conditional_function: function(){
         if (f_count > 1) {
+          timeout_hit++;
+          console.log(timeout_hit)
           return true
         } else {
           return false
         }
       }
     };
+
 
 /* define test trials */
 
@@ -225,6 +234,16 @@ const logMKey = (evt) => {
     correct_response: '6',
 };
 
+
+const logtimeout = (evt) => {
+      if (evt.timeout_message === true) {
+        timeout_hit++;
+        console.log(timeout_hit);
+      }
+    };
+document.addEventListener('timeout_message', logtimeout)
+
+
 var m_timeout_message = {
     type: jsPsychHtmlKeyboardResponse,
     stimulus:`
@@ -238,6 +257,14 @@ var m_timeout_message = {
     correct_response: '6',
 };
 
+const logtimeout_m = (evt) => {
+      if (evt.m_timeout_message === true ) {
+        timeout_hit++;
+        console.log(timeout_hit);
+      }
+    };
+
+
 //timeout message for test trials, same as real trials//
 
 var test_conditional_node = {
@@ -246,6 +273,8 @@ var test_conditional_node = {
     var last_trial =  jsPsych.data.getLastTrialData().values()[0].rt
     var previous_was_catch = jsPsych.data.getLastTrialData().filter({rt: null, correct_response: 'm'}).count()
     if (last_trial == null && (group === "1" || previous_was_catch > 0)) {
+      timeout_hit++;
+        console.log(timeout_hit);
         return true
     } else {
         return false
@@ -308,6 +337,8 @@ var conditional_node = {
     var last_trial =  jsPsych.data.getLastTrialData().values()[0].rt
     var previous_was_catch = jsPsych.data.getLastTrialData().filter({rt: null, correct_response: 'm'}).count()
     if (last_trial == null && (group === "1" || previous_was_catch > 0)) {
+      timeout_hit++;
+      console.log(timeout_hit)
         return true
     } else {
         return false
@@ -335,21 +366,20 @@ var trials_instructions = {
 this sequence is the first 10 digits -1 from the current sequence produced on matlab with Sam's sequence code */
 
     var sequence = [
-        1,	3,	0,	2,	3,	0,  4,	1,	2,	3,	1,
+    1,	3,	1,	2,	3,	0,	1,	2,	4, 3
         ];
 
 //short sequence to be used for practice set of trials//
     var test_sequence = [
-        1,	3,	0,	2,	3,	0,  4,	1,	2,	3,	1,
+    1,	3,	1,	2,	3,	0,	1,	2,	4, 3
     ];
 
     //add full sequence here for practice runs of full length! make sure practice trials run with shorter sequence//
     if (!debug) {
-      sequence = [1, 2,	0,	1,	2, 4,	0,	1,	2,	3,	0, 4,	1,	2,	0,	2,	3,	0,	1,	2,	4, 0,	1,	2,	3,	0,	
-      2,	3,	1,	2,	4, 3,	0,	1,	3,	0,	1,	3,	0, 4,	2,	3,	1,	3,	0,	2,	3,	0,	1,	2,	3,	0,	2,	3,	
-      0,	1,	2,	3,	0,	2, 4,	3,	1,	2,	3,	1,	2,	3,	0,	
-      1,	2, 4,	3,	1,	2,	3,	0,	1,	2,	3, 4,	0,	1,	3,	0,	1,	2,	3,	0,	1,	4, 2,	
-      0,	1,	2,	0,	1,	3,	0,	1,	3,	0,	1,	4, 2,	3,	1,	2,	3,	0,	1]
+      sequence = [1,	3,	1,	2,	3,	0,	1,	2,	4, 3,	0,	1,	2,	3,	0,	2,	3,	0,	1,	4, 3,	0,	2,	3,	0,	1,	
+      2,	3,	1, 4,	2,	3,	0,	2,	3,	1,	2,	3,	4, 0,	1,	2,	3,	0,	2,	3,	1,	2,	0,	1,	4, 3,	0,	1,	3,	0,	1,	3,	0,
+      	1, 4,	3,	0,	1,	2,	3,	0,	2,	3,	0, 4,	1,	2,	0,	1,	2,	0, 4,	1,	2,	0,	1,	2,	3,	1,	2,	3,	0,	1,	4, 2,	3,	
+        1,	2,	0,	2,	3,	0,	1,	4, 2,	0,	1,	2,	3,	0,	1, 4,	2,	3,	0]
     };
 
     var trials_procedure = {
@@ -398,7 +428,7 @@ var question_instructions = {
         type: jsPsychHtmlKeyboardResponse,
     stimulus: `<img src = "stim_1_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
-                    <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>Press <strong>'d'</strong> for the one on the <strong>left</strong>,</p>
                     <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
                     <img src="stim_2_questions.png"></img>
@@ -406,10 +436,10 @@ var question_instructions = {
                     <img src="stim_0_questions.png"></img>
                     `,
     post_trial_gap: 1000,
-   choices: ['f', 'j', 'b'],
+   choices: ['d', 'j', 'b'],
       data: {
         task: 'question_response',
-        correct_response: 'f'
+        correct_response: 'd'
       },
       on_finish: function(data){
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
@@ -421,7 +451,7 @@ var question_instructions = {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: `<img src = "stim_0_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
-                    <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>Press <strong>'d'</strong> for the one on the <strong>left</strong>,</p>
                     <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
                     <img src="stim_2_questions.png"></img>
@@ -429,7 +459,7 @@ var question_instructions = {
                     <img src="stim_1_questions.png"></img>
                     `,
     post_trial_gap: 1000,
-   choices: ['f', 'j', 'b'],
+   choices: ['d', 'j', 'b'],
       data: {
         task: 'question_response',
         correct_response: 'j'
@@ -444,7 +474,7 @@ var question_instructions = {
         type: jsPsychHtmlKeyboardResponse,
     stimulus: `<img src = "stim_2_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
-                    <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>Press <strong>'d'</strong> for the one on the <strong>left</strong>,</p>
                     <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
                     <img src="stim_1_questions.png"></img>
@@ -452,7 +482,7 @@ var question_instructions = {
                     <img src="stim_0_questions.png"></img>
                     `,
     post_trial_gap: 1000,
-   choices: ['f', 'j', 'b'],
+   choices: ['d', 'j', 'b'],
       data: {
         task: 'question_response',
         correct_response: 'b'
@@ -467,7 +497,7 @@ var question_instructions = {
         type: jsPsychHtmlKeyboardResponse,
     stimulus: `<img src = "stim_1_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
-                    <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>Press <strong>'d'</strong> for the one on the <strong>left</strong>,</p>
                     <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
                     <img src="stim_3_questions.png"></img>
@@ -475,7 +505,7 @@ var question_instructions = {
                     <img src="stim_0_questions.png"></img>
                     `,
     post_trial_gap: 1000,
-   choices: ['f', 'j', 'b'],
+   choices: ['d', 'j', 'b'],
       data: {
         task: 'question_response',
         correct_response: 'b'
@@ -490,7 +520,7 @@ var question_instructions = {
         type: jsPsychHtmlKeyboardResponse,
     stimulus: `<img src = "stim_2_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
-                    <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>Press <strong>'d'</strong> for the one on the <strong>left</strong>,</p>
                     <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
                     <img src="stim_1_questions.png"></img>
@@ -498,7 +528,7 @@ var question_instructions = {
                     <img src="stim_3_questions.png"></img>
                     `,
     post_trial_gap: 1000,
-   choices: ['f', 'j', 'b'],
+   choices: ['d', 'j', 'b'],
       data: {
         task: 'question_response',
         correct_response: 'j'
@@ -513,7 +543,7 @@ var question_instructions = {
         type: jsPsychHtmlKeyboardResponse,
     stimulus: `<img src = "stim_3_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
-                    <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>Press <strong>'d'</strong> for the one on the <strong>left</strong>,</p>
                     <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
                     <img src="stim_0_questions.png"></img>
@@ -521,10 +551,10 @@ var question_instructions = {
                     <img src="stim_2_questions.png"></img>
                     `,
     post_trial_gap: 1000,
-   choices: ['f', 'j', 'b'],
+   choices: ['d', 'j', 'b'],
       data: {
         task: 'question_response',
-        correct_response: 'f'
+        correct_response: 'd'
       },
       on_finish: function(data){
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
@@ -537,7 +567,7 @@ var question_instructions = {
         type: jsPsychHtmlKeyboardResponse,
     stimulus: `<img src = "stim_0_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
-                    <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>Press <strong>'d'</strong> for the one on the <strong>left</strong>,</p>
                     <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
                     <img src="stim_3_questions.png"></img>
@@ -545,7 +575,7 @@ var question_instructions = {
                     <img src="stim_2_questions.png"></img>
                     `,
     post_trial_gap: 1000,
-   choices: ['f', 'j', 'b'],
+   choices: ['d', 'j', 'b'],
       data: {
         task: 'question_response',
         correct_response: 'b'
@@ -560,7 +590,7 @@ var question_instructions = {
         type: jsPsychHtmlKeyboardResponse,
     stimulus: `<img src = "stim_2_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
-                    <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>Press <strong>'d'</strong> for the one on the <strong>left</strong>,</p>
                     <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
                     <img src="stim_3_questions.png"></img>
@@ -568,10 +598,10 @@ var question_instructions = {
                     <img src="stim_1_questions.png"></img>
                     `,
     post_trial_gap: 1000,
-   choices: ['f', 'j', 'b'],
+   choices: ['d', 'j', 'b'],
       data: {
         task: 'question_response',
-        correct_response: 'f'
+        correct_response: 'd'
       },
       on_finish: function(data){
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
@@ -583,7 +613,7 @@ var question_instructions = {
         type: jsPsychHtmlKeyboardResponse,
     stimulus: `<img src = "stim_3_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
-                    <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>Press <strong>'d'</strong> for the one on the <strong>left</strong>,</p>
                     <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
                     <img src="stim_2_questions.png"></img>
@@ -591,7 +621,7 @@ var question_instructions = {
                     <img src="stim_1_questions.png"></img>
                     `,
     post_trial_gap: 1000,
-   choices: ['f', 'j', 'b'],
+   choices: ['d', 'j', 'b'],
       data: {
         task: 'question_response',
         correct_response: 'b'
@@ -615,7 +645,7 @@ var question_instructions = {
                     <img src="stim_2_questions.png"></img>
                     `,
     post_trial_gap: 1000,
-   choices: ['f', 'j', 'b'],
+   choices: ['d', 'j', 'b'],
       data: {
         task: 'question_response',
         correct_response: 'j'
@@ -630,7 +660,7 @@ var question_instructions = {
         type: jsPsychHtmlKeyboardResponse,
     stimulus: `<img src = "stim_0_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
-                    <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>Press <strong>'d'</strong> for the one on the <strong>left</strong>,</p>
                     <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
                     <img src="stim_1_questions.png"></img>
@@ -638,7 +668,7 @@ var question_instructions = {
                     <img src="stim_3_questions.png"></img>
                     `,
     post_trial_gap: 1000,
-   choices: ['f', 'j', 'b'],
+   choices: ['d', 'j', 'b'],
       data: {
         task: 'question_response',
         correct_response: 'f'
@@ -653,7 +683,7 @@ var question_instructions = {
         type: jsPsychHtmlKeyboardResponse,
     stimulus: `<img src = "stim_3_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
-                    <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>Press <strong>'d'</strong> for the one on the <strong>left</strong>,</p>
                     <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
                     <p>or press <strong>'b'</strong> for neither.<p>
@@ -662,7 +692,7 @@ var question_instructions = {
                     <img src="stim_0_questions.png"></img>
                     `,
     post_trial_gap: 1000,
-   choices: ['f', 'j', 'b'],
+   choices: ['d', 'j', 'b'],
       data: {
         task: 'question_response',
         correct_response: 'j'
