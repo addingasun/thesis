@@ -23,7 +23,7 @@ const debug = url_params.get('debug') !== null
 var jsPsych = initJsPsych({
       on_finish: function() {
         var a = document.createElement("a");
-      var file = new Blob([JSON.stringify(trials)], { type: "text/plain" });
+      var file = new Blob([jsPsych.data.get().json()], { type: "text/plain" });
       a.href = URL.createObjectURL(file);
       a.download = `data_${JSON.stringify(new Date())}.json`;
       a.click();
@@ -37,6 +37,7 @@ var jsPsych = initJsPsych({
     group: group,
     debug: debug
   });
+ 
 
 /* create timeline */
     var timeline = []
@@ -452,7 +453,9 @@ var question_instructions = {
    choices: ['d', 'j', 'b'],
       data: {
         task: 'question_response',
-        correct_response: 'd'
+        correct_response: 'd',
+        stimulus: "stim_1",
+        choices: "stim_2, stim_3, stim_0"
       },
       on_finish: function(data){
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
@@ -475,7 +478,9 @@ var question_instructions = {
    choices: ['d', 'j', 'b'],
       data: {
         task: 'question_response',
-        correct_response: 'j'
+        correct_response: 'j',
+        stimulus: 'stim_0',
+        choices: "stim_2, stim_3, stim_1"
       },
       on_finish: function(data){
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
@@ -498,7 +503,9 @@ var question_instructions = {
    choices: ['d', 'j', 'b'],
       data: {
         task: 'question_response',
-        correct_response: 'b'
+        correct_response: 'b',
+        stimulus: 'stim_2',
+        choices: "stim_1, stim_3, stim_0"
       },
       on_finish: function(data){
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
@@ -521,7 +528,9 @@ var question_instructions = {
    choices: ['d', 'j', 'b'],
       data: {
         task: 'question_response',
-        correct_response: 'b'
+        correct_response: 'b',
+        stimulus: 'stim_1',
+        choices: "stim_3, stim_2, stim_0"
       },
       on_finish: function(data){
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
@@ -544,7 +553,9 @@ var question_instructions = {
    choices: ['d', 'j', 'b'],
       data: {
         task: 'question_response',
-        correct_response: 'j'
+        correct_response: 'j',
+        stimulus: 'stim_2',
+        choices: "stim_1, stim_0, stim_3"
       },
       on_finish: function(data){
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
@@ -567,7 +578,9 @@ var question_instructions = {
    choices: ['d', 'j', 'b'],
       data: {
         task: 'question_response',
-        correct_response: 'd'
+        correct_response: 'd',
+        stimulus: 'stim_3',
+        choices: "stim_0, stim_1, stim_2"
       },
       on_finish: function(data){
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
@@ -591,7 +604,9 @@ var question_instructions = {
    choices: ['d', 'j', 'b'],
       data: {
         task: 'question_response',
-        correct_response: 'b'
+        correct_response: 'b',
+        stimulus: 'stim_0',
+        choices: "stim_3, stim_1, stim_2"
       },
       on_finish: function(data){
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
@@ -614,7 +629,9 @@ var question_instructions = {
    choices: ['d', 'j', 'b'],
       data: {
         task: 'question_response',
-        correct_response: 'd'
+        correct_response: 'd',
+        stimulus: 'stim_2',
+        choices: "stim_3, stim_0, stim_1"
       },
       on_finish: function(data){
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
@@ -637,7 +654,9 @@ var question_instructions = {
    choices: ['d', 'j', 'b'],
       data: {
         task: 'question_response',
-        correct_response: 'b'
+        correct_response: 'b',
+        stimulus: 'stim_3',
+        choices: "stim_2, stim_0, stim_1"
       },
       on_finish: function(data){
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
@@ -661,7 +680,9 @@ var question_instructions = {
    choices: ['d', 'j', 'b'],
       data: {
         task: 'question_response',
-        correct_response: 'j'
+        correct_response: 'j',
+        stimulus: 'stim_1',
+        choices: "stim_0, stim_3, stim_2"
       },
       on_finish: function(data){
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
@@ -684,7 +705,9 @@ var question_instructions = {
    choices: ['d', 'j', 'b'],
       data: {
         task: 'question_response',
-        correct_response: 'f'
+        correct_response: 'f',
+        stimulus: 'stim_0',
+        choices: "stim_1, stim_2, stim_3"
       },
       on_finish: function(data){
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
@@ -708,7 +731,9 @@ var question_instructions = {
    choices: ['d', 'j', 'b'],
       data: {
         task: 'question_response',
-        correct_response: 'j'
+        correct_response: 'j',
+        stimulus: 'stim_3',
+        choices: "stim_2, stim_1, stim_0"
       },
       on_finish: function(data){
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
@@ -740,8 +765,7 @@ var question_instructions = {
     };
 
     return `<p>You responded correctly on ${accuracy}% of the questions.</p>
-    <p>You responded correctly on ${attention_accuracy}% of the total trials, including the attention checks.</p>
-    <p>Control group responded correctly on ${control_accuracy}% of the attention check trials. Good job!</p>
+    <p>You responded correctly on ${control_accuracy}% of the attention check trials. Good job!</p>
       <p>Press any key to complete the experiment. Thank you!</p>`;
         }
     };
