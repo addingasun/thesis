@@ -454,8 +454,8 @@ var question_instructions = {
       data: {
         task: 'question_response',
         correct_response: 'd',
-        stimulus: "stim_1",
-        choices: "stim_2, stim_3, stim_0"
+        stimulus: "Thesis/stim_1",
+        choices: "Thesis/stim_2, Thesis/stim_3, Thesis/stim_0"
       },
       on_finish: function(data){
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
@@ -465,14 +465,14 @@ var question_instructions = {
 
     const question_2 = {
     type: jsPsychHtmlKeyboardResponse,
-    stimulus: `<img src = "stim_0_questions.png"></img>
+    stimulus: `<img src = "Thesis/stim_0_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
                     <p>Press <strong>'d'</strong> for the one on the <strong>left</strong>,</p>
                     <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
-                    <img src="stim_2_questions.png"></img>
-                    <img src="stim_3_questions.png"></img>
-                    <img src="stim_1_questions.png"></img>
+                    <img src="Thesis/stim_2_questions.png"></img>
+                    <img src="Thesis/stim_3_questions.png"></img>
+                    <img src="Thesis/stim_1_questions.png"></img>
                     `,
     post_trial_gap: 1000,
    choices: ['d', 'j', 'b'],
@@ -480,7 +480,7 @@ var question_instructions = {
         task: 'question_response',
         correct_response: 'j',
         stimulus: 'stim_0',
-        choices: "stim_2, stim_3, stim_1"
+        choices: "Thesis/stim_2, Thesis/stim_3, Thesis/stim_1"
       },
       on_finish: function(data){
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
@@ -490,22 +490,22 @@ var question_instructions = {
 
     const question_3 = {
         type: jsPsychHtmlKeyboardResponse,
-    stimulus: `<img src = "stim_2_questions.png"></img>
+    stimulus: `<img src = "Thesis/stim_2_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
                     <p>Press <strong>'d'</strong> for the one on the <strong>left</strong>,</p>
                     <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
-                    <img src="stim_1_questions.png"></img>
-                    <img src="stim_3_questions.png"></img>
-                    <img src="stim_0_questions.png"></img>
+                    <img src="Thesis/stim_1_questions.png"></img>
+                    <img src="Thesis/stim_3_questions.png"></img>
+                    <img src="Thesis/stim_0_questions.png"></img>
                     `,
     post_trial_gap: 1000,
    choices: ['d', 'j', 'b'],
       data: {
         task: 'question_response',
         correct_response: 'b',
-        stimulus: 'stim_2',
-        choices: "stim_1, stim_3, stim_0"
+        stimulus: 'Thesis/stim_2',
+        choices: "Thesis/stim_1, Thesis/stim_3, Thesis/stim_0"
       },
       on_finish: function(data){
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
@@ -515,22 +515,22 @@ var question_instructions = {
 
     const question_4 = {
         type: jsPsychHtmlKeyboardResponse,
-    stimulus: `<img src = "stim_1_questions.png"></img>
+    stimulus: `<img src = "Thesis/stim_1_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
                     <p>Press <strong>'d'</strong> for the one on the <strong>left</strong>,</p>
                     <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
-                    <img src="stim_3_questions.png"></img>
-                    <img src="stim_2_questions.png"></img>
-                    <img src="stim_0_questions.png"></img>
+                    <img src="Thesis/stim_3_questions.png"></img>
+                    <img src="Thesis/stim_2_questions.png"></img>
+                    <img src="Thesis/stim_0_questions.png"></img>
                     `,
     post_trial_gap: 1000,
    choices: ['d', 'j', 'b'],
       data: {
         task: 'question_response',
         correct_response: 'b',
-        stimulus: 'stim_1',
-        choices: "stim_3, stim_2, stim_0"
+        stimulus: 'Thesis/stim_1',
+        choices: "Thesis/stim_3, Thesis/stim_2, Thesis/stim_0"
       },
       on_finish: function(data){
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
@@ -540,22 +540,22 @@ var question_instructions = {
 
     const question_5 = {
         type: jsPsychHtmlKeyboardResponse,
-    stimulus: `<img src = "stim_2_questions.png"></img>
+    stimulus: `<img src = "Thesis/stim_2_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
                     <p>Press <strong>'d'</strong> for the one on the <strong>left</strong>,</p>
                     <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
-                    <img src="stim_1_questions.png"></img>
-                    <img src="stim_0_questions.png"></img>
-                    <img src="stim_3_questions.png"></img>
+                    <img src="Thesis/stim_1_questions.png"></img>
+                    <img src="Thesis/stim_0_questions.png"></img>
+                    <img src="Thesis/stim_3_questions.png"></img>
                     `,
     post_trial_gap: 1000,
    choices: ['d', 'j', 'b'],
       data: {
         task: 'question_response',
         correct_response: 'j',
-        stimulus: 'stim_2',
-        choices: "stim_1, stim_0, stim_3"
+        stimulus: 'Thesis/stim_2',
+        choices: "Thesis/stim_1, stim_0, stim_3"
       },
       on_finish: function(data){
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
@@ -565,21 +565,21 @@ var question_instructions = {
 
     const question_6 = {
         type: jsPsychHtmlKeyboardResponse,
-    stimulus: `<img src = "stim_3_questions.png"></img>
+    stimulus: `<img src = "Thesis/stim_3_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
                     <p>Press <strong>'d'</strong> for the one on the <strong>left</strong>,</p>
                     <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
-                    <img src="stim_0_questions.png"></img>
-                    <img src="stim_1_questions.png"></img>
-                    <img src="stim_2_questions.png"></img>
+                    <img src="Thesis/stim_0_questions.png"></img>
+                    <img src="Thesis/stim_1_questions.png"></img>
+                    <img src="Thesis/stim_2_questions.png"></img>
                     `,
     post_trial_gap: 1000,
    choices: ['d', 'j', 'b'],
       data: {
         task: 'question_response',
         correct_response: 'd',
-        stimulus: 'stim_3',
+        stimulus: 'Thesis/stim_3',
         choices: "stim_0, stim_1, stim_2"
       },
       on_finish: function(data){
@@ -591,14 +591,14 @@ var question_instructions = {
 
     const question_7 = {
         type: jsPsychHtmlKeyboardResponse,
-    stimulus: `<img src = "stim_0_questions.png"></img>
+    stimulus: `<img src = "Thesis/stim_0_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
                     <p>Press <strong>'d'</strong> for the one on the <strong>left</strong>,</p>
                     <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
-                    <img src="stim_3_questions.png"></img>
-                    <img src="stim_1_questions.png"></img>
-                    <img src="stim_2_questions.png"></img>
+                    <img src="Thesis/stim_3_questions.png"></img>
+                    <img src="Thesis/stim_1_questions.png"></img>
+                    <img src="Thesis/stim_2_questions.png"></img>
                     `,
     post_trial_gap: 1000,
    choices: ['d', 'j', 'b'],
@@ -616,14 +616,14 @@ var question_instructions = {
 
     const question_8 = {
         type: jsPsychHtmlKeyboardResponse,
-    stimulus: `<img src = "stim_2_questions.png"></img>
+    stimulus: `<img src = "Thesis/stim_2_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
                     <p>Press <strong>'d'</strong> for the one on the <strong>left</strong>,</p>
                     <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
-                    <img src="stim_3_questions.png"></img>
-                    <img src="stim_0_questions.png"></img>
-                    <img src="stim_1_questions.png"></img>
+                    <img src="Thesis/stim_3_questions.png"></img>
+                    <img src="Thesis/stim_0_questions.png"></img>
+                    <img src="Thesis/stim_1_questions.png"></img>
                     `,
     post_trial_gap: 1000,
    choices: ['d', 'j', 'b'],
@@ -641,14 +641,14 @@ var question_instructions = {
 
     const question_9 = {
         type: jsPsychHtmlKeyboardResponse,
-    stimulus: `<img src = "stim_3_questions.png"></img>
+    stimulus: `<img src = "Thesis/stim_3_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
                     <p>Press <strong>'d'</strong> for the one on the <strong>left</strong>,</p>
                     <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
-                    <img src="stim_2_questions.png"></img>
-                    <img src="stim_0_questions.png"></img>
-                    <img src="stim_1_questions.png"></img>
+                    <img src="Thesis/stim_2_questions.png"></img>
+                    <img src="Thesis/stim_0_questions.png"></img>
+                    <img src="Thesis/stim_1_questions.png"></img>
                     `,
     post_trial_gap: 1000,
    choices: ['d', 'j', 'b'],
@@ -666,15 +666,15 @@ var question_instructions = {
 
     const question_10 = {
         type: jsPsychHtmlKeyboardResponse,
-    stimulus: `<img src = "stim_1_questions.png"></img>
+    stimulus: `<img src = "Thesis/stim_1_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
                     <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
                     <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
                     <p>or press <strong>'b'</strong> for neither.<p>
-                    <img src="stim_0_questions.png"></img>
-                    <img src="stim_3_questions.png"></img>
-                    <img src="stim_2_questions.png"></img>
+                    <img src="Thesis/stim_0_questions.png"></img>
+                    <img src="Thesis/stim_3_questions.png"></img>
+                    <img src="Thesis/stim_2_questions.png"></img>
                     `,
     post_trial_gap: 1000,
    choices: ['d', 'j', 'b'],
@@ -692,14 +692,14 @@ var question_instructions = {
 
     const question_11 = {
         type: jsPsychHtmlKeyboardResponse,
-    stimulus: `<img src = "stim_0_questions.png"></img>
+    stimulus: `<img src = "Thesis/stim_0_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
                     <p>Press <strong>'d'</strong> for the one on the <strong>left</strong>,</p>
                     <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
-                    <img src="stim_1_questions.png"></img>
-                    <img src="stim_2_questions.png"></img>
-                    <img src="stim_3_questions.png"></img>
+                    <img src="Thesis/stim_1_questions.png"></img>
+                    <img src="Thesis/stim_2_questions.png"></img>
+                    <img src="Thesis/stim_3_questions.png"></img>
                     `,
     post_trial_gap: 1000,
    choices: ['d', 'j', 'b'],
@@ -717,15 +717,15 @@ var question_instructions = {
 
     const question_12 = {
         type: jsPsychHtmlKeyboardResponse,
-    stimulus: `<img src = "stim_3_questions.png"></img>
+    stimulus: `<img src = "Thesis/stim_3_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
                     <p>Press <strong>'d'</strong> for the one on the <strong>left</strong>,</p>
                     <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
                     <p>or press <strong>'b'</strong> for neither.<p>
-                    <img src="stim_2_questions.png"></img>
-                    <img src="stim_1_questions.png"></img>
-                    <img src="stim_0_questions.png"></img>
+                    <img src="Thesis/stim_2_questions.png"></img>
+                    <img src="Thesis/stim_1_questions.png"></img>
+                    <img src="Thesis/stim_0_questions.png"></img>
                     `,
     post_trial_gap: 1000,
    choices: ['d', 'j', 'b'],
