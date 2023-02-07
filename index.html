@@ -92,11 +92,11 @@ var jsPsych = initJsPsych({
 
 /* define trial stimuli array for timeline variables */
         var test_stimuli = [
-      { stimulus: "stim_0.png",  correct_response: 'f'},
-      { stimulus: "stim_1.png",  correct_response: 'f'},
-      { stimulus: "stim_2.png",  correct_response: 'f'},
-      { stimulus: "stim_3.png",  correct_response: 'f'},
-      { stimulus: "attention_check.png", correct_response: 'm'}
+      { stimulus: "Thesis/stim_0.png",  correct_response: 'f'},
+      { stimulus: "Thesis/stim_1.png",  correct_response: 'f'},
+      { stimulus: "Thesis/stim_2.png",  correct_response: 'f'},
+      { stimulus: "Thesis/stim_3.png",  correct_response: 'f'},
+      { stimulus: "Thesis/attention_check.png", correct_response: 'm'}
     ];
 
 //m keylog
@@ -428,10 +428,10 @@ var question_instructions = {
 
 //define question task stimuli array//
     var question_stimuli = [
-        {stimulus: "stim_0_questions.png"},
-        {stimulus: "stim_1_questions.png"},
-        {stimulus: "stim_2_questions.png"},
-        {stimulus: "stim_3_questions.png"},
+        {stimulus: "Thesis/stim_0_questions.png"},
+        {stimulus: "Thesis/stim_1_questions.png"},
+        {stimulus: "Thesis/stim_2_questions.png"},
+        {stimulus: "Thesis/stim_3_questions.png"},
     ];
 
 
@@ -440,14 +440,14 @@ var question_instructions = {
 
     const question_1 = {
         type: jsPsychHtmlKeyboardResponse,
-    stimulus: `<img src = "stim_1_questions.png"></img>
+    stimulus: `<img src = "Thesis/stim_1_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
                     <p>Press <strong>'d'</strong> for the one on the <strong>left</strong>,</p>
                     <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
-                    <img src="stim_2_questions.png"></img>
-                    <img src="stim_3_questions.png"></img>
-                    <img src="stim_0_questions.png"></img>
+                    <img src="Thesis/stim_2_questions.png"></img>
+                    <img src="Thesis/stim_3_questions.png"></img>
+                    <img src="Thesis/stim_0_questions.png"></img>
                     `,
     post_trial_gap: 1000,
    choices: ['d', 'j', 'b'],
