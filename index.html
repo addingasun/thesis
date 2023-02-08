@@ -741,7 +741,8 @@ var question_instructions = {
         choices: "stim_2, stim_1, stim_0"
       },
       on_finish: function(data){
-        data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
+        data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
+        vals = {d:'worst', j: 'best', b: 'ok'}
       }
     };
     timeline.push(question_12);
