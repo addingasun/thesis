@@ -498,7 +498,8 @@
       choices: "stim_2, stim_3, stim_0"
     },
     on_finish: function (data) {
-      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
+      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
+      vals = { d: 'best', b: 'ok', j: 'worst' }
     }
   };
   timeline.push(question_1);
@@ -523,7 +524,8 @@
       choices: "stim_2, stim_3, stim_1"
     },
     on_finish: function (data) {
-      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
+      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
+      vals = { d: 'ok', b: 'worst', j: 'best' }
     }
   };
   timeline.push(question_2);
@@ -548,7 +550,8 @@
       choices: "stim_1, stim_3, stim_0"
     },
     on_finish: function (data) {
-      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
+      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
+      vals = { d: 'worst', b: 'best', j: 'ok' }
     }
   };
   timeline.push(question_3);
@@ -573,7 +576,8 @@
       choices: "stim_3, stim_2, stim_0"
     },
     on_finish: function (data) {
-      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
+      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
+      vals = { d: 'best', b: 'best', j: 'worst' }
     }
   };
   timeline.push(question_4);
@@ -598,7 +602,8 @@
       choices: "stim_1, stim_0, stim_3"
     },
     on_finish: function (data) {
-      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
+      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
+      vals = { d: 'worst', b: 'ok', j: 'best' }
     }
   };
   timeline.push(question_5);
@@ -623,7 +628,8 @@
       choices: "stim_0, stim_1, stim_2"
     },
     on_finish: function (data) {
-      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
+      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
+      vals = { d: 'best', b: 'ok', j: 'worst' }
     }
   };
   timeline.push(question_6);
@@ -649,7 +655,8 @@
       choices: "stim_3, stim_1, stim_2"
     },
     on_finish: function (data) {
-      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
+      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
+      vals = { d: 'worst', b: 'best', j: 'ok' }
     }
   };
   timeline.push(question_7);
@@ -674,7 +681,8 @@
       choices: "stim_3, stim_0, stim_1"
     },
     on_finish: function (data) {
-      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
+      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
+      vals = { d: 'best', b: 'ok', j: 'worst' }
     }
   };
   timeline.push(question_8);
@@ -699,7 +707,8 @@
       choices: "stim_2, stim_0, stim_1"
     },
     on_finish: function (data) {
-      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
+      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
+      vals = { d: 'worst', b: 'best', j: 'ok' }
     }
   };
   timeline.push(question_9);
@@ -708,7 +717,7 @@
     type: jsPsychHtmlKeyboardResponse,
     stimulus: `<img src = "Thesis/stim_1_questions.png"></img>
                     <p>Which of the following images is most likely to appear after the image above?</p>
-                    <p>Press <strong>'f'</strong> for the one on the <strong>left</strong>,</p>
+                    <p>Press <strong>'d'</strong> for the one on the <strong>left</strong>,</p>
                     <p>Press <strong>'b'</strong> for the one in the <strong>middle</strong>,</p>
                     <p>press <strong>'j'</strong> for the one on the <strong>right</strong>.</p>
                     <p>or press <strong>'b'</strong> for neither.<p>
@@ -725,7 +734,8 @@
       choices: "stim_0, stim_3, stim_2"
     },
     on_finish: function (data) {
-      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
+      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
+      vals = { d: 'worst', b: 'ok', j: 'best' }
     }
   };
   timeline.push(question_10);
@@ -750,7 +760,8 @@
       choices: "stim_1, stim_2, stim_3"
     },
     on_finish: function (data) {
-      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
+      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
+      vals = { d: 'best', b: 'ok', j: 'worst' }
     }
   };
   timeline.push(question_11);
@@ -768,7 +779,7 @@
                     <img src="Thesis/stim_0_questions.png"></img>
                     `,
     post_trial_gap: 1000,
-    choices: ['d', 'j', 'b'],
+    choices: ['d', 'b', 'j'],
     data: {
       task: 'question_response',
       correct_response: 'j',
@@ -777,7 +788,7 @@
     },
     on_finish: function (data) {
       data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
-        vals = { d: 'worst', j: 'best', b: 'ok' }
+        vals = { d: 'worst', b: 'ok', j: 'best' }
     }
   };
   timeline.push(question_12);
