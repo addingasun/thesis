@@ -52,7 +52,7 @@
   var jsPsych = initJsPsych({
     on_finish: function () {
       // send an email, then redirect to success URL
-      let success = 'https://google.com'
+      let success = 'https://app.prolific.co/submissions/complete?cc=C130D715'
       Promise.resolve(emailData(jsPsych.data.get().json()).then((values => { window.location.href = success })))
       // TODO: comment out before running on Prolific!
       var a = document.createElement("a");
