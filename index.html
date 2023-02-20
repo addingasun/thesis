@@ -65,11 +65,15 @@
     }
   });
 
+  
+
   jsPsych.data.addProperties({
-    subject_id: id,
-    group: group,
-    debug: debug
-  });
+  subject_id: id.slice(0, 8),
+  group: group,
+  debug: debug
+});
+
+  
 
   var matrix = {
     stim_0: { stim_0: 0.0, stim_1: 0.72, stim_2: 0.28, stim_3: 0.0 },
@@ -317,7 +321,6 @@
       console.log(timeout_hit);
     }
   };
-
 
   //timeout message for test trials, same as real trials//
 
