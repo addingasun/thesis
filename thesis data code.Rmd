@@ -1,0 +1,67 @@
+---
+title: "thesis stuff"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+library(RcppSimdJson)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r}
+
+##fully set up to load the folder of json files and create 2 new dataframes for questions and trials portion of experiment
+
+test_data_new <- fload("C:\\Users\\beera\\Downloads\\data__2023-02-07T17_07_36.543Z_.json", max_simplify_lvl = "vector")
+
+datafiles <- list.files("C:\\Users\\beera\\Downloads\\Thesis\\JSON_files", pattern='*.json', full.names = TRUE)
+
+trials <- list()
+questions <- list()
+
+##only like 6 lines wrong, something with the floading of the datafiles, it shouldn't be datafiles there, alex says structure and ordering is wrong 
+
+i = 1
+for (h in 1:length(datafiles)) {
+  d <- fload(datafiles[h], max_simplify_lvl ='vector', single_null = NA, empty_array=NA, empty_object=NA)
+  for (g in 1:length(d)){
+  dat <- d[[g]]
+  
+  if (is.null(dat$task)){
+    next
+  }
+  
+  if (dat$task=='response') {
+    trials[[i]] <- as.data.frame(dat)
+  } else if (dat$task=='question_response') {
+    questions[[i]] <- as.data.frame(dat)
+  }
+  i = i + 1
+  print(i)
+ }
+}
+
+trials <- do.call(rbind, trials)
+questions <- do.call(rbind, questions)
+
+plot(trials$trial_index)
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
