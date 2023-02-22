@@ -53,17 +53,20 @@
     on_finish: function () {
       // send an email, then redirect to success URL
       let success = 'https://app.prolific.co/submissions/complete?cc=C130D715'
-      Promise.resolve(emailData(jsPsych.data.get().json()).then((values => { window.location.href = success })))
-      
-      var a = document.createElement("a");
-      var file = new Blob([jsPsych.data.get().json()], { type: "text/plain" });
-      a.href = URL.createObjectURL(file);
-      a.download = `data_${JSON.stringify(new Date())}.json`;
-      a.click();
-      URL.revokeObjectURL(a.href);
-      jsPsych.data.displayData();
+      Promise.resolve(emailData(jsPsych.data.get().json()).then((values => { window.location.href = success })));
     }
   });
+      
+
+  
+   //  var a = document.createElement("a");
+     // var file = new Blob([jsPsych.data.get().json()], { type: "text/plain" });
+     // a.href = URL.createObjectURL(file);
+     // a.download = `data_${JSON.stringify(new Date())}.json`;
+    //  a.click();
+     // URL.revokeObjectURL(a.href);
+    //  jsPsych.data.displayData();
+    
 
   
 
@@ -503,11 +506,11 @@
     },
     on_finish: function (data) {
       data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
-      vals = { d: 'best', b: 'ok', j: 'worst' }, 
-      response = data.response,
-      quality = (vals[response]),
-      data.quality = quality,
-      console.log(quality)
+      vals = { d: 'best', b: 'ok', j: 'worst' } 
+      response = data.response
+      quality = (vals[response])
+      data.quality = quality
+  
     }
   };
   timeline.push(question_1);
@@ -533,11 +536,10 @@
     },
     on_finish: function (data) {
       data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
-      vals = { d: 'best', b: 'ok', j: 'worst' }, 
+      vals = { d: 'ok', b: 'worst', j: 'best' }
       response = data.response,
       quality = (vals[response]),
-      data.quality = quality,
-      console.log(quality)
+      data.quality = quality
     }
   };
   timeline.push(question_2);
@@ -563,11 +565,10 @@
     },
     on_finish: function (data) {
       data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
-      vals = { d: 'best', b: 'ok', j: 'worst' }, 
+      vals = { d: 'worst', b: 'best', j: 'ok' }
       response = data.response,
       quality = (vals[response]),
-      data.quality = quality,
-      console.log(quality)
+      data.quality = quality
     }
   };
   timeline.push(question_3);
@@ -593,11 +594,10 @@
     },
     on_finish: function (data) {
       data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
-      vals = { d: 'best', b: 'ok', j: 'worst' }, 
+      vals = { d: 'best', b: 'best', j: 'worst' }
       response = data.response,
       quality = (vals[response]),
-      data.quality = quality,
-      console.log(quality)
+      data.quality = quality
     }
   };
   timeline.push(question_4);
@@ -623,11 +623,10 @@
     },
     on_finish: function (data) {
       data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
-      vals = { d: 'best', b: 'ok', j: 'worst' }, 
+      vals = { d: 'worst', b: 'ok', j: 'best' } 
       response = data.response,
       quality = (vals[response]),
-      data.quality = quality,
-      console.log(quality)
+      data.quality = quality
     }
   };
   timeline.push(question_5);
@@ -653,11 +652,10 @@
     },
     on_finish: function (data) {
       data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
-      vals = { d: 'best', b: 'ok', j: 'worst' }, 
+      vals = { d: 'best', b: 'ok', j: 'worst' }
       response = data.response,
       quality = (vals[response]),
-      data.quality = quality,
-      console.log(quality)
+      data.quality = quality
     }
   };
   timeline.push(question_6);
@@ -684,11 +682,10 @@
     },
     on_finish: function (data) {
       data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
-      vals = { d: 'best', b: 'ok', j: 'worst' }, 
+      vals = { d: 'worst', b: 'best', j: 'ok' }
       response = data.response,
       quality = (vals[response]),
-      data.quality = quality,
-      console.log(quality)
+      data.quality = quality
     }
   };
   timeline.push(question_7);
@@ -714,11 +711,10 @@
     },
     on_finish: function (data) {
       data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
-      vals = { d: 'best', b: 'ok', j: 'worst' }, 
+      vals = { d: 'best', b: 'ok', j: 'worst' }
       response = data.response,
       quality = (vals[response]),
-      data.quality = quality,
-      console.log(quality)
+      data.quality = quality
     }
   };
   timeline.push(question_8);
@@ -744,11 +740,10 @@
     },
     on_finish: function (data) {
       data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
-      vals = { d: 'best', b: 'ok', j: 'worst' }, 
+      vals = { d: 'worst', b: 'best', j: 'ok' }
       response = data.response,
       quality = (vals[response]),
-      data.quality = quality,
-      console.log(quality)
+      data.quality = quality
     }
   };
   timeline.push(question_9);
@@ -774,11 +769,10 @@
     },
     on_finish: function (data) {
       data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
-      vals = { d: 'best', b: 'ok', j: 'worst' }, 
+      vals = { d: 'worst', b: 'ok', j: 'best' }
       response = data.response,
       quality = (vals[response]),
-      data.quality = quality,
-      console.log(quality)
+      data.quality = quality
     }
   };
   timeline.push(question_10);
@@ -804,11 +798,10 @@
     },
     on_finish: function (data) {
       data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
-      vals = { d: 'best', b: 'ok', j: 'worst' }, 
+      vals = { d: 'best', b: 'ok', j: 'worst' }
       response = data.response,
       quality = (vals[response]),
-      data.quality = quality,
-      console.log(quality)
+      data.quality = quality
     }
   };
   timeline.push(question_11);
@@ -834,11 +827,10 @@
     },
     on_finish: function (data) {
       data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
-      vals = { d: 'best', b: 'ok', j: 'worst' }, 
+      vals = { d: 'worst', b: 'ok', j: 'best' }
       response = data.response,
       quality = (vals[response]),
-      data.quality = quality,
-      console.log(quality)
+      data.quality = quality
     }
   };
   timeline.push(question_12);
