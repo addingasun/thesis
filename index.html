@@ -54,37 +54,24 @@
       // send an email, then redirect to success URL
       let success = 'https://app.prolific.co/submissions/complete?cc=C130D715'
       Promise.resolve(emailData(jsPsych.data.get().json()).then((values => { window.location.href = success })));
+      // var a = document.createElement("a");
+      // var file = new Blob([jsPsych.data.get().json()], { type: "text/plain" });
+      // a.href = URL.createObjectURL(file);
+      // a.download = `data_${JSON.stringify(new Date())}.json`;
+      // a.click();
+      // URL.revokeObjectURL(a.href);
+      // jsPsych.data.displayData();
     }
   });
-      
 
-  
-   //  var a = document.createElement("a");
-     // var file = new Blob([jsPsych.data.get().json()], { type: "text/plain" });
-     // a.href = URL.createObjectURL(file);
-     // a.download = `data_${JSON.stringify(new Date())}.json`;
-    //  a.click();
-     // URL.revokeObjectURL(a.href);
-    //  jsPsych.data.displayData();
-    
 
-  
+
 
   jsPsych.data.addProperties({
-  subject_id: id.slice(0, 8),
-  group: group,
-  debug: debug,
-});
-
-  
-
-  var matrix = {
-    stim_0: { stim_0: 0.0, stim_1: 0.72, stim_2: 0.28, stim_3: 0.0 },
-    stim_1: { stim_0: 0.0, stim_1: 0.0, stim_2: 0.72, stim_3: 0.28 },
-    stim_2: { stim_0: 0.28, stim_1: 0.0, stim_2: 0.0, stim_3: 0.72 },
-    stim_3: { stim_0: 0.72, stim_1: 0.28, stim_2: 0.0, stim_3: 0.0 }
-  }
-
+    subject_id: id.slice(0, 8),
+    group: group,
+    debug: debug,
+  });
 
   /* create timeline */
   var timeline = []
@@ -151,7 +138,7 @@
   const logMKey = (evt) => {
     if (evt.key === "m") {
       m_count++;
-      console.log(m_count)
+      // console.log(m_count)
     }
   };
   document.addEventListener('keydown', logMKey)
@@ -188,7 +175,7 @@
   const logFkey = (evt) => {
     if (evt.key === "f") {
       f_count++;
-      console.log(f_count);
+      // console.log(f_count);
     }
   };
 
@@ -202,7 +189,7 @@
     conditional_function: function () {
       if (f_count > 0) {
         timeout_hit++;
-        console.log(timeout_hit)
+        // console.log(timeout_hit)
         return true
       } else {
         return false
@@ -505,12 +492,12 @@
       choices: "stim_2, stim_3, stim_0",
     },
     on_finish: function (data) {
-      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
-      vals = { d: 'best', b: 'ok', j: 'worst' } 
+      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
+      vals = { d: 'best', b: 'ok', j: 'worst' }
       response = data.response
       quality = (vals[response])
       data.quality = quality
-  
+
     }
   };
   timeline.push(question_1);
@@ -535,10 +522,10 @@
       choices: "stim_2, stim_3, stim_1",
     },
     on_finish: function (data) {
-      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
+      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
       vals = { d: 'ok', b: 'worst', j: 'best' }
-      response = data.response,
-      quality = (vals[response]),
+      response = data.response
+      quality = (vals[response])
       data.quality = quality
     }
   };
@@ -564,10 +551,10 @@
       choices: "stim_1, stim_3, stim_0",
     },
     on_finish: function (data) {
-      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
+      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
       vals = { d: 'worst', b: 'best', j: 'ok' }
-      response = data.response,
-      quality = (vals[response]),
+      response = data.response
+      quality = (vals[response])
       data.quality = quality
     }
   };
@@ -593,10 +580,10 @@
       choices: "stim_3, stim_2, stim_0",
     },
     on_finish: function (data) {
-      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
+      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
       vals = { d: 'best', b: 'best', j: 'worst' }
-      response = data.response,
-      quality = (vals[response]),
+      response = data.response
+      quality = (vals[response])
       data.quality = quality
     }
   };
@@ -622,10 +609,10 @@
       choices: "stim_1, stim_0, stim_3",
     },
     on_finish: function (data) {
-      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
-      vals = { d: 'worst', b: 'ok', j: 'best' } 
-      response = data.response,
-      quality = (vals[response]),
+      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
+      vals = { d: 'worst', b: 'ok', j: 'best' }
+      response = data.response
+      quality = (vals[response])
       data.quality = quality
     }
   };
@@ -651,10 +638,10 @@
       choices: "stim_0, stim_1, stim_2",
     },
     on_finish: function (data) {
-      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
+      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
       vals = { d: 'best', b: 'ok', j: 'worst' }
-      response = data.response,
-      quality = (vals[response]),
+      response = data.response
+      quality = (vals[response])
       data.quality = quality
     }
   };
@@ -681,10 +668,10 @@
       choices: "stim_3, stim_1, stim_2",
     },
     on_finish: function (data) {
-      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
+      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
       vals = { d: 'worst', b: 'best', j: 'ok' }
-      response = data.response,
-      quality = (vals[response]),
+      response = data.response
+      quality = (vals[response])
       data.quality = quality
     }
   };
@@ -710,10 +697,10 @@
       choices: "stim_3, stim_0, stim_1",
     },
     on_finish: function (data) {
-      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
+      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
       vals = { d: 'best', b: 'ok', j: 'worst' }
-      response = data.response,
-      quality = (vals[response]),
+      response = data.response
+      quality = (vals[response])
       data.quality = quality
     }
   };
@@ -739,10 +726,10 @@
       choices: "stim_2, stim_0, stim_1",
     },
     on_finish: function (data) {
-      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
+      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
       vals = { d: 'worst', b: 'best', j: 'ok' }
-      response = data.response,
-      quality = (vals[response]),
+      response = data.response
+      quality = (vals[response])
       data.quality = quality
     }
   };
@@ -768,10 +755,10 @@
       choices: "stim_0, stim_3, stim_2",
     },
     on_finish: function (data) {
-      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
+      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
       vals = { d: 'worst', b: 'ok', j: 'best' }
-      response = data.response,
-      quality = (vals[response]),
+      response = data.response
+      quality = (vals[response])
       data.quality = quality
     }
   };
@@ -797,10 +784,10 @@
       choices: "stim_1, stim_2, stim_3",
     },
     on_finish: function (data) {
-      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
+      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
       vals = { d: 'best', b: 'ok', j: 'worst' }
-      response = data.response,
-      quality = (vals[response]),
+      response = data.response
+      quality = (vals[response])
       data.quality = quality
     }
   };
@@ -826,10 +813,10 @@
       choices: "stim_2, stim_1, stim_0",
     },
     on_finish: function (data) {
-      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response),
+      data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response)
       vals = { d: 'worst', b: 'ok', j: 'best' }
-      response = data.response,
-      quality = (vals[response]),
+      response = data.response
+      quality = (vals[response])
       data.quality = quality
     }
   };
