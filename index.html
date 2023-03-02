@@ -102,7 +102,7 @@
         <p>There will be a set of practice trials before the experiment begins.</p>
         <div style='width: 700px;'>
         </div>
-        <p>Press the key <strong>'6'</strong> to begin the practice trials.</p>
+        <p>Press the <strong>'spacebar'</strong> to begin the practice trials.</p>
       `
   grp2_instruct = `<p>In this experiment, you will be presented a series of images.</p>
             <p>Simply watch the images, but when the blue cross shows up you are to press the <strong>'M'</strong> key.</p>
@@ -110,7 +110,7 @@
         <p>There will be a set of practice trials before the experiment begins.</p>
         <div style='width: 700px;'>
         </div>
-        <p>Press the key <strong>'6'</strong> to begin the practice trials.</p>`
+        <p>Press the <strong>'spacebar'</strong> to begin the practice trials.</p>`
   let instruct = grp1_instruct
   if (group === '2') {
     instruct = grp2_instruct
@@ -118,7 +118,7 @@
   /* define instructions trial (need alternate instructions for the 2 groups, all current instructions are for exp. group*/
   var instructions = {
     type: jsPsychHtmlKeyboardResponse,
-    choices: ['6'],
+    choices: [' '],
     stimulus: instruct,
     post_trial_gap: 1000
   };
@@ -147,27 +147,27 @@
   //key warnings//
   var m_key_warning = {
     type: jsPsychHtmlKeyboardResponse,
-    correct_response: '6',
+    correct_response: ' ',
     stimulus: `
         <p>Whoops! You've been pressing the <strong>'m'</strong> key too much.</p>
         <p>Make sure to only press it once when the blue cross appears</p>
-        <p>Press <strong>'6'</strong> to continue.</p>
+        <p>Press the <strong>'spacebar'</strong> to continue.</p>
       `,
-    choices: ['6'],
-    correct_response: '6',
+    choices: [' '],
+    correct_response: ' ',
     post_trial_gap: 1000
   };
 
   var f_key_warning = {
     type: jsPsychHtmlKeyboardResponse,
-    correct_response: '6',
+    correct_response: ' ',
     stimulus: `
         <p>Whoops! You've been pressing the <strong>'f'</strong> key too much.</p>
         <p>Make sure to only press it once when the circles appear.</p>
-        <p>Press <strong>'6'</strong> to continue.</p>
+        <p>Press the <strong>'spacebar'</strong> to continue.</p>
       `,
-    choices: ['6'],
-    correct_response: '6',
+    choices: [' '],
+    correct_response: ' ',
     post_trial_gap: 1000
   };
 
@@ -184,7 +184,9 @@
 
   let timeout_hit = 0
 
-  var keylog_f = {
+ /* idk if this bit is needed
+ 
+ var keylog_f = {
     timeline: [timeout_message],
     conditional_function: function () {
       if (f_count > 0) {
@@ -196,6 +198,8 @@
       }
     }
   };
+
+  */
 
   var keylog_m = {
     timeline: [m_key_warning],
@@ -215,7 +219,7 @@
     conditional_function: function () {
       if (f_count > 1) {
         timeout_hit++;
-        console.log(timeout_hit)
+        // console.log(timeout_hit)
         return true
       } else {
         return false
@@ -269,17 +273,31 @@
     practice_trials = test_grp2
   };
   //timeout message//
-  var timeout_message = {
-    type: jsPsychHtmlKeyboardResponse,
-    stimulus: `
-    <p>Too slow! Press the correct key faster (under 1 second).</p>
-    <p>Press the key <strong>'6'</strong> to continue with the trials.</p>
+
+timeout_message_1 = `
+    <p>Too slow! Press the correct key faster (under 1 second)</p>
+    <p>Press the <strong> 'f' </strong> key for the circles, and the <strong> 'm' </strong> key for the blue crosses.
+    <p>To continue, press the <strong>'spacebar' </strong> </p>
     <div style='width: 700px;'> 
         </div>
-        ` ,
-    choices: ['6'],
+        `
+timeout_message_2 = `
+    <p>Too slow! Press the <strong> 'm' </strong> key when the blue cross appears.</p>
+    <p>Press the <strong>'spacebar' </strong> to continue with the trials.</p>
+    <div style='width: 700px;'> 
+        </div>
+        `
+let messaging = timeout_message_1
+  if (group === '2') {
+    messaging = timeout_message_2
+  };
+
+  var timeout_message = {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus: messaging,
+    choices: [' '],
     response_ends_trial: true,
-    correct_response: '6',
+    correct_response: ' ',
   };
 
 
@@ -296,13 +314,13 @@
     type: jsPsychHtmlKeyboardResponse,
     stimulus: `
     <p>Too slow! Press the <strong>'m'</strong> key (under 1 second).</p>
-    <p>Press the key <strong>'6'</strong> to continue with the trials.</p>
+    <p>Press the key <strong>' '</strong> to continue with the trials.</p>
     <div style='width: 700px;'> 
         </div>
         ` ,
-    choices: ['6'],
+    choices: [' '],
     response_ends_trial: true,
-    correct_response: '6',
+    correct_response: ' ',
   };
 
   const logtimeout_m = (evt) => {
@@ -329,13 +347,41 @@
     }
   };
 
+  var test_conditional_node_2 = {
+  timeline: [timeout_message],
+  conditional_function: function () {
+    var last_trial_correct = jsPsych.data.getLastTrialData().values()[0]
+    if (last_trial_correct.correct == 0 && (group === "1")) {
+      timeout_hit++;
+      //console.log(timeout_hit);
+      return true
+    } else {
+      return false
+    }
+  }
+  };
+
+  var test_conditional_node_3 = {
+  timeline: [timeout_message],
+  conditional_function: function () {
+    var last_trial_correct = jsPsych.data.getLastTrialData().values()[0]
+    var previous_trials = jsPsych.data.getLastTrialData().filter({correct_response: 'f', response: false}).count()
+    if (last_trial_correct.correct == 0 && group === "2" && previous_trials == 1 ) {
+      timeout_hit++;
+      //console.log(timeout_hit);
+      return true
+    } else {
+      return false
+    }
+  }
+  };
 
 
   /* define test procedure */
 
 
   var test_procedure = {
-    timeline: [test, test_conditional_node, keylog_f, keylog_m],
+    timeline: [test, test_conditional_node, keylog_f, keylog_m, test_conditional_node_2, test_conditional_node_3],
     timeline_variables: test_stimuli,
     randomize_order: false,
     post_trial_grap: 1000,
@@ -400,10 +446,10 @@
         <p>Now the experiment will begin, it will be the same as the practice trials.</p>
         <div style='width: 700px;'>
         </div>
-        <p>Press the key <strong>'6'</strong> to begin.</p>
+        <p>Press the <strong>'spacebar'</strong> to begin.</p>
       `,
-    choices: ['6'],
-    correct_response: '6',
+    choices: [' '],
+    correct_response: ' ',
     post_trial_gap: 2000
   };
   timeline.push(trials_instructions)
