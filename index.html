@@ -275,14 +275,14 @@
   //timeout message//
 
 timeout_message_1 = `
-    <p>Too slow! Press the correct key faster (under 1 second)</p>
-    <p>Press the <strong> 'f' </strong> key for the circles, and the <strong> 'm' </strong> key for the blue crosses.
+    <p>Whoops! Press the correct key faster (under 1 second)</p>
+    <p>Press the <strong> 'f' </strong> key for each of the circles, and the <strong> 'm' </strong> key for the blue crosses.
     <p>To continue, press the <strong>'spacebar' </strong> </p>
     <div style='width: 700px;'> 
         </div>
         `
 timeout_message_2 = `
-    <p>Too slow! Press the <strong> 'm' </strong> key when the blue cross appears.</p>
+    <p>Whoops! Press the <strong> 'm' </strong> key when the blue cross appears.</p>
     <p>Press the <strong>'spacebar' </strong> to continue with the trials.</p>
     <div style='width: 700px;'> 
         </div>
@@ -365,8 +365,8 @@ let messaging = timeout_message_1
   timeline: [timeout_message],
   conditional_function: function () {
     var last_trial_correct = jsPsych.data.getLastTrialData().values()[0]
-    var previous_trials = jsPsych.data.getLastTrialData().filter({correct_response: 'f', response: false}).count()
-    if (last_trial_correct.correct == 0 && group === "2" && previous_trials == 1 ) {
+    var previous_trials = jsPsych.data.getLastTrialData().filter({correct_response: 'f', response: 'm'}).count()
+    if (last_trial_correct.correct == 0 && group === "2" && previous_trials == 1) {
       timeout_hit++;
       //console.log(timeout_hit);
       return true
@@ -439,6 +439,35 @@ let messaging = timeout_message_1
     }
   };
 
+  var conditional_node_2 = {
+  timeline: [timeout_message],
+  conditional_function: function () {
+    var last_trial_correct = jsPsych.data.getLastTrialData().values()[0]
+    if (last_trial_correct.correct == 0 && (group === "1")) {
+      timeout_hit++;
+      //console.log(timeout_hit);
+      return true
+    } else {
+      return false
+    }
+  }
+  };
+
+  var conditional_node_3 = {
+  timeline: [timeout_message],
+  conditional_function: function () {
+    var last_trial_correct = jsPsych.data.getLastTrialData().values()[0]
+    var previous_trials = jsPsych.data.getLastTrialData().filter({correct_response: 'f', response: 'm'}).count()
+    if (last_trial_correct.correct == 0 && group === "2" && previous_trials == 1) {
+      timeout_hit++;
+      //console.log(timeout_hit);
+      return true
+    } else {
+      return false
+    }
+  }
+  };
+
   var trials_instructions = {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: `
@@ -476,7 +505,7 @@ let messaging = timeout_message_1
   };
 
   var trials_procedure = {
-    timeline: [trials, conditional_node, keylog_m, keylog_f],
+    timeline: [trials, conditional_node, keylog_m, keylog_f, conditional_node_2, conditional_node_3],
     timeline_variables: test_stimuli,
     randomize_order: false,
     post_trial_gap: 100,
