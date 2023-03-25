@@ -18,6 +18,7 @@ library(RcppSimdJson)
 library(ggplot2)
 library(dplyr)
 library(tidyr)
+library(car)
 ```
 
 ## Including Plots
@@ -26,7 +27,7 @@ You can also embed plots, for example:
 
 ```{r}
 
-##fully set up to load the folder of json files and create 2 new dataframes for questions and trials portion of experiment
+##fully set up to load the folder of json files and create 2 new dataframes for questions and trials portion of experiment, test_data_new is not needed
 
 test_data_new <- fload("C:\\Users\\beera\\Downloads\\data__2023-02-07T17_07_36.543Z_.json", max_simplify_lvl = "vector")
 
@@ -63,5 +64,163 @@ questions <- do.call(rbind, questions)
 plot(trials$trial_index)
 
 ```
-
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+```{r}
+
+group_1_questions <- filter(questions, group == 1)
+
+group_1_questions
+
+group_2_questions <- filter(questions, group == 2)
+
+```
+
+```{r}
+
+summary(group_1_questions)
+
+summary(group_2_questions)
+
+means_questions
+
+```
+```{r}
+chisq.test(table(group_1_questions$correct, group_2_questions$correct))
+
+means_questions <- c(mean(group_1_questions$correct), mean(group_2_questions$correct))
+
+means_questions
+
+se <- c(sd(group_1_questions$correct)/sqrt(length(group_1_questions$correct)), sd(group_2_questions$correct)/sqrt(length(group_2_questions$correct)))
+
+barplot(means_questions, ylim = c(0, 1), col = c("blue", "red"), 
+        xlab = "Group", ylab = "Proportion True", 
+        names.arg = c("Experimental", "Control"))
+arrows(1:2, means_questions, 1:2, means_questions + se, length = 0.1, angle = 90, code = 3)
+
+```
+
+
+```{r}
+## not statistically significant results for quality variation
+chisq.test(table(group_1_questions$quality, group_2_questions$quality))
+
+
+## statistically significant results for correctness variation between groups, 
+## group 2 is higher
+t.test(group_1_questions$correct, group_2_questions$correct)
+
+```
+```{r}
+
+model <- lm(correct ~ group, data = questions)
+
+x <- questions$correct
+y <- questions$group
+
+
+
+summary(model)
+
+```
+
+```{r}
+##significant rt differences in quesiton phase too
+t.test(group_1_questions$rt, group_2_questions$rt)
+
+```
+
+
+```{r}
+
+summary(trials$rt)
+
+max(trials$trial_index)
+
+group_1_trials <- filter(trials, group == 1)
+
+group_2_trials <- filter(trials, group == 2)
+
+summary(group_1_trials)
+
+
+## response time is stat sig between groups, not surprising bc control doesn't have to press after each response, likely a little worse at task overall.
+t.test(group_1_trials$rt, group_2_trials$rt)
+
+
+
+##I don't think I actually need to filter out any data, highest number of hitting error message walls seems to be 7 (trial index minimum of 126, highest is only 133 following trials stage)
+
+```
+
+```{r}
+
+#just the attention check trials for group 1 & 2
+attention_1 <- filter(group_1_trials, correct_response == 'm')
+
+attention_2 <- filter(group_2_trials, correct_response == 'm')
+
+
+##seeing if correctness at the attention checks performance varies insignificant p = 0.25
+t.test(attention_1$correct, attention_2$correct)
+
+##seeing if rt varies between groups on attention checks insignificant p = 0.8, since rt varies overall but not on attention checks this shows that the attention checks seem to be working and that the rt difference overall is just being driven by the lack of attention checks for the control group and the experimental group being faster with the non attention trials
+t.test(attention_1$rt, attention_2$rt)
+
+
+
+# looking at chance probability significance in question performance
+chance_prob <- 0.33
+
+experimental_correct_prob <- 0.458
+
+group_1_questions$chance <- 0.33
+
+group_2_questions$chance <- 0.33
+
+
+##experimental group is performing statistically significantly below chance but barely (p = 0.046)
+t.test(group_1_questions$correct, group_1_questions$chance)
+
+
+#control group performing stat sig higher than chance p = 0.0058
+t.test(group_2_questions$correct, group_2_questions$chance)
+
+
+
+##performance during trials phase does not seem to vary too much
+
+```
+
+
+``` {r}
+
+##plots and info by individual subject ids, a lot of variation but no major outliers it seems ? control group seems highly varied
+
+questions_bysubject_rt <- questions %>%
+  group_by(subject_id, group) %>%
+  summarise(mean_rt = mean(rt))
+
+
+questions_bysubject <- questions %>%
+  group_by(subject_id, group) %>%
+  summarise(percent_correct = mean(correct)*100)
+
+questions_bysubject_1 <- filter(questions_bysubject, group == 1)
+
+questions_bysubject_2 <- filter(questions_bysubject, group == 2)
+
+summary(questions_bysubject_1)
+
+summary(questions_bysubject_2)
+
+ggplot(questions_bysubject, aes(x = questions_bysubject_rt$mean_rt, y = percent_correct, color = group)) + 
+  geom_point() + 
+  geom_smooth(method = "lm") +
+  ylim(0, 100) +
+  xlim(0, 10000) +
+  labs(x = "Response Time (ms)", y = "Percentage Correct", title = "Performance by Group")
+##could be a rt effect on performance between groups, perhaps keypressing effects rt which affects performance. higher rt = more likely correct due to more accurate episodic recollection of sequence
+```
