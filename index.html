@@ -339,7 +339,7 @@ let messaging = timeout_message_1
       var previous_was_catch = jsPsych.data.getLastTrialData().filter({ rt: null, correct_response: 'm' }).count()
       if (last_trial == null && (group === "1" || previous_was_catch > 0)) {
         timeout_hit++;
-        console.log(timeout_hit);
+        // console.log(timeout_hit);
         return true
       } else {
         return false
