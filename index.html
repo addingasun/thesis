@@ -54,13 +54,13 @@
       // send an email, then redirect to success URL
       let success = 'https://app.prolific.co/submissions/complete?cc=C130D715'
       Promise.resolve(emailData(jsPsych.data.get().json()).then((values => { window.location.href = success })));
-      // var a = document.createElement("a");
-      // var file = new Blob([jsPsych.data.get().json()], { type: "text/plain" });
-      // a.href = URL.createObjectURL(file);
-      // a.download = `data_${JSON.stringify(new Date())}.json`;
-      // a.click();
-      // URL.revokeObjectURL(a.href);
-      // jsPsych.data.displayData();
+       var a = document.createElement("a");
+      var file = new Blob([jsPsych.data.get().json()], { type: "text/plain" });
+       a.href = URL.createObjectURL(file);
+       a.download = `data_${JSON.stringify(new Date())}.json`;
+       a.click();
+      URL.revokeObjectURL(a.href);
+       jsPsych.data.displayData();
     }
   });
 
@@ -677,9 +677,13 @@ for (let i = 0; i < stim.length; i++) {
      data: {
        seen_before: stim[i].old,
        task: 'question_response'
-       }
+       },
+       on_finish: function (data) {
+      data.reported_seen = jsPsych.pluginAPI.compareKeys(data.response, "d")
+      response = data.response
      }
-  timeline.push(trial_type)
+}
+timeline.push(trial_type)
 }
 
 
