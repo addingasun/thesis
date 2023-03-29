@@ -596,9 +596,9 @@ let messaging = timeout_message_1
     type: jsPsychHtmlKeyboardResponse,
     stimulus: `
         <p>Now there will be a few questions.</p>
-        <p>You will be shown images and you must say whether or not you recognize it or if it's new/p>
+        <p>You will be shown images and you must say whether or not you recognize it or if it's new</p>
         <p>If it is an old image that you feel like you saw previously, press <strong>'d'</strong>
-        <p>If it is a new image that you have not just seen, press <strong>'j'</strong>
+        <p>If it is a new image that you have not seen, press <strong>'j'</strong>
         <p>Press any key to begin the questions.</p>
         <div style='width: 700px;'>
         </div>`
@@ -622,9 +622,10 @@ let messaging = timeout_message_1
         [array[i], array[j]] = [array[j], array[i]];
     }
 }
-stim = [{old: false, stim: `<img src = "Thesis/stim_051.png"> <p>Is this image new or old?</p> </img>`},
-{old: false, stim: `<img src = "Thesis/stim_052.png"> <p>Is this image new or old?</p> </img>`}, 
-{old: true, stim: `<img src = "Thesis/stim_002.png"> <p>Is this image new or old?</p> </img>`}],
+stim = [{old: false, stim: `<img src = "Thesis/stim_051.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`},
+{old: false, stim: `<img src = "Thesis/stim_052.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`}, 
+
+{old: true, stim: `<img src = "Thesis/stim_002.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`}],
 shuffleArray(stim)
 
 for (let i = 0; i < stim.length; i++) {
