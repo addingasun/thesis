@@ -562,7 +562,7 @@ let messaging = timeout_message_1
 
   //sequence for experiment 2, just first 10 stimuli, maybe change
   var test_sequence = [
-    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+    1, 2, 3, 4, 5, 6, 7, 0, 8, 9, 10
   ];
 
   //add full sequence here for practice runs of full length! make sure practice trials run with shorter sequence//
@@ -622,10 +622,49 @@ let messaging = timeout_message_1
         [array[i], array[j]] = [array[j], array[i]];
     }
 }
-stim = [{old: false, stim: `<img src = "Thesis/stim_051.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`},
+stim = [
+{old: false, stim: `<img src = "Thesis/stim_051.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`},
 {old: false, stim: `<img src = "Thesis/stim_052.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`}, 
+{old: false, stim: `<img src = "Thesis/stim_053.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`},
+{old: false, stim: `<img src = "Thesis/stim_054.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`}, 
+{old: false, stim: `<img src = "Thesis/stim_055.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`}, 
+{old: false, stim: `<img src = "Thesis/stim_056.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`}, 
+{old: false, stim: `<img src = "Thesis/stim_057.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`}, 
+{old: false, stim: `<img src = "Thesis/stim_058.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`}, 
+{old: false, stim: `<img src = "Thesis/stim_059.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`}, 
+{old: false, stim: `<img src = "Thesis/stim_060.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`}, 
+{old: false, stim: `<img src = "Thesis/stim_061.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`}, 
+{old: false, stim: `<img src = "Thesis/stim_062.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`}, 
+{old: false, stim: `<img src = "Thesis/stim_063.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`}, 
+{old: false, stim: `<img src = "Thesis/stim_064.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`}, 
+{old: false, stim: `<img src = "Thesis/stim_065.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`}, 
+{old: false, stim: `<img src = "Thesis/stim_066.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`}, 
+{old: false, stim: `<img src = "Thesis/stim_067.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`}, 
+{old: false, stim: `<img src = "Thesis/stim_068.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`}, 
+{old: false, stim: `<img src = "Thesis/stim_069.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`}, 
+{old: false, stim: `<img src = "Thesis/stim_070.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`}, 
 
-{old: true, stim: `<img src = "Thesis/stim_002.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`}],
+{old: true, stim: `<img src = "Thesis/stim_002.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`},
+{old: true, stim: `<img src = "Thesis/stim_004.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`},
+{old: true, stim: `<img src = "Thesis/stim_006.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`},
+{old: true, stim: `<img src = "Thesis/stim_008.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`},
+{old: true, stim: `<img src = "Thesis/stim_010.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`},
+{old: true, stim: `<img src = "Thesis/stim_012.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`},
+{old: true, stim: `<img src = "Thesis/stim_014.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`},
+{old: true, stim: `<img src = "Thesis/stim_016.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`},
+{old: true, stim: `<img src = "Thesis/stim_018.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`},
+{old: true, stim: `<img src = "Thesis/stim_020.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`},
+{old: true, stim: `<img src = "Thesis/stim_022.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`},
+{old: true, stim: `<img src = "Thesis/stim_026.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`},
+{old: true, stim: `<img src = "Thesis/stim_030.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`},
+{old: true, stim: `<img src = "Thesis/stim_034.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`},
+{old: true, stim: `<img src = "Thesis/stim_038.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`},
+{old: true, stim: `<img src = "Thesis/stim_042.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`},
+{old: true, stim: `<img src = "Thesis/stim_043.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`},
+{old: true, stim: `<img src = "Thesis/stim_046.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`},
+{old: true, stim: `<img src = "Thesis/stim_045.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`},
+{old: true, stim: `<img src = "Thesis/stim_049.png"> <p>Press <strong>'d'</strong> if you recognize this image, press <strong>'j'</strong> if you do not.</p> </img>`},
+],
 shuffleArray(stim)
 
 for (let i = 0; i < stim.length; i++) {
