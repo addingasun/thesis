@@ -622,7 +622,9 @@ let messaging = timeout_message_1
         [array[i], array[j]] = [array[j], array[i]];
     }
 }
-stim = [{old: false, stim:'Thesis/stim_051.png'}, {old: true, stim:'Thesis/stim_002.png'}]
+stim = [{old: false, stim: `<img src = "Thesis/stim_051.png"> <p>Is this image new or old?</p> </img>`},
+{old: false, stim: `<img src = "Thesis/stim_052.png"> <p>Is this image new or old?</p> </img>`}, 
+{old: true, stim: `<img src = "Thesis/stim_002.png"> <p>Is this image new or old?</p> </img>`}],
 shuffleArray(stim)
 
 for (let i = 0; i < stim.length; i++) {
@@ -630,11 +632,7 @@ for (let i = 0; i < stim.length; i++) {
   let trial_type = {
     type: jsPsychHtmlKeyboardResponse,
     choices: ['d', 'j'],
-     stimulus: stim[i].stim,
-     stimulus: `<p>Is this image new or old?</p>
-                    <p>Press <strong>'d'</strong> for <strong>new</strong>,</p>
-                    <p>Press <strong>'j'</strong> for <strong>old</strong>,</p>
-                    `,
+     stimulus: stim[i].stim, 
      post_trial_gap: 1000,
      data: {
        seen_before: stim[i].old,
