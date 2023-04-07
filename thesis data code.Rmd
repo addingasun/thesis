@@ -19,6 +19,8 @@ library(ggplot2)
 library(dplyr)
 library(tidyr)
 library(car)
+library(psycho)
+
 ```
 
 ## Including Plots
@@ -31,12 +33,12 @@ You can also embed plots, for example:
 
 test_data_new <- fload("C:\\Users\\beera\\Downloads\\data__2023-02-07T17_07_36.543Z_.json", max_simplify_lvl = "vector")
 
-datafiles <- list.files("C:\\Users\\beera\\Downloads\\Thesis\\JSON_files", pattern='*.json', full.names = TRUE)
+datafiles <- list.files("C:\\Users\\beera\\Downloads\\Thesis\\ex1_JSON_files", pattern='*.json', full.names = TRUE)
 
 trials <- list()
 questions <- list()
 
-##only like 6 lines wrong, something with the floading of the datafiles, it shouldn't be datafiles there, alex says structure and ordering is wrong 
+##auto loads stuff from json files folder into df, should be same for experiment 2
 
 i = 1
 for (h in 1:length(datafiles)) {
@@ -77,6 +79,7 @@ group_2_questions <- filter(questions, group == 2)
 
 ```
 
+
 ```{r}
 
 summary(group_1_questions)
@@ -109,7 +112,7 @@ chisq.test(table(group_1_questions$quality, group_2_questions$quality))
 
 
 ## statistically significant results for correctness variation between groups, 
-## group 2 is higher
+## group 2 is higher, 0.000239
 t.test(group_1_questions$correct, group_2_questions$correct)
 
 ```
@@ -127,7 +130,7 @@ summary(model)
 ```
 
 ```{r}
-##significant rt differences in quesiton phase too
+##significant rt differences in question phase too
 t.test(group_1_questions$rt, group_2_questions$rt)
 
 ```
@@ -181,11 +184,11 @@ group_1_questions$chance <- 0.33
 group_2_questions$chance <- 0.33
 
 
-##experimental group is performing statistically significantly below chance but barely (p = 0.046)
+##experimental group is not performing stat sig below chance, at p value of 0.09
 t.test(group_1_questions$correct, group_1_questions$chance)
 
 
-#control group performing stat sig higher than chance p = 0.0058
+#control group performing stat sig higher than chance p = 0.00055
 t.test(group_2_questions$correct, group_2_questions$chance)
 
 
@@ -223,4 +226,74 @@ ggplot(questions_bysubject, aes(x = questions_bysubject_rt$mean_rt, y = percent_
   xlim(0, 10000) +
   labs(x = "Response Time (ms)", y = "Percentage Correct", title = "Performance by Group")
 ##could be a rt effect on performance between groups, perhaps keypressing effects rt which affects performance. higher rt = more likely correct due to more accurate episodic recollection of sequence
+
+## add 15 or 20 people per group 
+## and then one more experiment with one small change, could be cool to have an episodic memory version, show one fractal and say whether it's new or old
+```
+
+
+``` {r}
+###detection theory stuff with experiment 2, currently just with data from 1 participant sample
+
+
+##simple floading of one file for practice, probably need to use the same floading structure for a whole folder of data
+
+ex2_datafiles <- list.files("C:\\Users\\beera\\Downloads\\Thesis\\ex2_JSON_files", pattern='*.json', full.names = TRUE)
+
+ex2_trials <- list()
+ex2_questions <- list()
+
+i = 1
+for (h in 1:length(ex2_datafiles)) {
+  d <- fload(ex2_datafiles[h], max_simplify_lvl ='vector', single_null = NA, empty_array=NA, empty_object=NA)
+  for (g in 1:length(d)){
+  dat <- d[[g]]
+  
+  if (is.null(dat$task)){
+    next
+  }
+  
+  if (dat$task=='response') {
+    trials[[i]] <- as.data.frame(dat)
+  } else if (dat$task=='question_response') {
+    questions[[i]] <- as.data.frame(dat)
+  }
+  i = i + 1
+  print(i)
+ }
+}
+
+ex2_trials <- do.call(rbind, trials)
+ex2_questions <- do.call(rbind, questions)
+
+
+episodic_data <- fload("C:\\Users\\beera\\Downloads\\Thesis\\ex2_JSON_files\\data__2023-03-29T20_23_42.654Z_.json")
+
+target <- na.omit(episodic_data$seen_before)
+response <- na.omit(episodic_data$reported_seen)
+
+hit_rate <- sum(target & response) / sum(target)
+
+fa_rate <- sum(!target & response) / sum(target)
+
+d_prime <- qnorm(hit_rate) - qnorm(fa_rate)
+
+
+
+
+##use psycho package, can use same fload looping thing
+dprime(episodic_data_no_na)
+
+filtered_episodic_data <- filter(episodic_data, episodic_data$reported_seen, episodic_data$seen_before)
+
+filtered_episodic_data <- subset(episodic_data, select = c(seen_before,reported_seen))
+
+filtered_episodic_data <- na.omit(filtered_episodic_data)
+
+dprime(filtered_episodic_data)
+
+
+
+
+
 ```
