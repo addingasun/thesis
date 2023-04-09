@@ -89,6 +89,7 @@ summary(group_2_questions)
 means_questions
 
 ```
+
 ```{r}
 chisq.test(table(group_1_questions$correct, group_2_questions$correct))
 
@@ -99,7 +100,7 @@ means_questions
 se <- c(sd(group_1_questions$correct)/sqrt(length(group_1_questions$correct)), sd(group_2_questions$correct)/sqrt(length(group_2_questions$correct)))
 
 barplot(means_questions, ylim = c(0, 1), col = c("blue", "red"), 
-        xlab = "Group", ylab = "Proportion True", 
+        xlab = "Group", ylab = "Mean Correctness", 
         names.arg = c("Experimental", "Control"))
 arrows(1:2, means_questions, 1:2, means_questions + se, length = 0.1, angle = 90, code = 3)
 
@@ -254,20 +255,19 @@ for (h in 1:length(ex2_datafiles)) {
   }
   
   if (dat$task=='response') {
-    trials[[i]] <- as.data.frame(dat)
+    ex2_trials[[i]] <- as.data.frame(dat)
   } else if (dat$task=='question_response') {
-    questions[[i]] <- as.data.frame(dat)
+    ex2_questions[[i]] <- as.data.frame(dat)
   }
   i = i + 1
   print(i)
  }
 }
 
-ex2_trials <- do.call(rbind, trials)
-ex2_questions <- do.call(rbind, questions)
+ex2_trials <- do.call(rbind, ex2_trials)
+ex2_questions <- do.call(rbind, ex2_questions)
 
-
-episodic_data <- fload("C:\\Users\\beera\\Downloads\\Thesis\\ex2_JSON_files\\data__2023-03-29T20_23_42.654Z_.json")
+episodic_data <- fload("C:\\Users\\beera\\Downloads\\thesis_data_5aee5910.json")
 
 target <- na.omit(episodic_data$seen_before)
 response <- na.omit(episodic_data$reported_seen)
@@ -282,6 +282,81 @@ d_prime <- qnorm(hit_rate) - qnorm(fa_rate)
 
 
 ##use psycho package, can use same fload looping thing
+
+
+ex2_questions$n_hit	<- sum(ex2_questions$seen_before & ex2_questions$reported_seen)
+##Number of hits
+
+ex2_questions$n_fa <- sum(!ex2_questions$seen_before & ex2_questions$reported_seen)
+##Number of false alarms.
+
+ex2_questions$n_miss <- sum(ex2_questions$seen_before & !ex2_questions$reported_seen)
+##Number of misses.
+
+ex2_questions$n_cr <- sum(!ex2_questions$seen_before & !ex2_questions$reported_seen)
+##Number of correct rejections.
+
+n_targets <- (ex2_questions$n_hit + ex2_questions$n_miss)
+##Number of targets 
+
+n_distractors	<- (ex2_questions$n_fa + ex2_questions$n_cr)
+##Number of distractors 
+
+###################################### CONTROL
+
+ex2_questions_control$n_hit	<- sum(ex2_questions_control$seen_before & ex2_questions_control$reported_seen)
+##Number of hits
+
+ex2_questions_control$n_fa <- sum(!ex2_questions_control$seen_before & ex2_questions_control$reported_seen)
+##Number of false alarms.
+
+ex2_questions_control$n_miss <- sum(ex2_questions_control$seen_before & !ex2_questions_control$reported_seen)
+##Number of misses.
+
+ex2_questions_control$n_cr <- sum(!ex2_questions_control$seen_before & !ex2_questions_control$reported_seen)
+##Number of correct rejections.
+
+n_targets_control <- (ex2_questions_control$n_hit + ex2_questions_control$n_miss)
+##Number of targets 
+
+n_distractors_control	<- (ex2_questions_control$n_fa + ex2_questions_control$n_cr)
+##Number of distractors 
+
+
+indices_control <- psycho::dprime(ex2_questions_control$n_hit, ex2_questions_control$n_fa, ex2_questions_control$n_miss, ex2_questions_control$n_cr)
+
+ex2_questions_control <- cbind(ex2_questions_control, indices_control)
+
+
+############################################
+
+###################################### EXPERIMENTAL
+
+ex2_questions_experimental$n_hit	<- sum(ex2_questions_experimental$seen_before & ex2_questions_experimental$reported_seen)
+##Number of hits
+
+ex2_questions_experimental$n_fa <- sum(!ex2_questions_experimental$seen_before & ex2_questions_experimental$reported_seen)
+##Number of false alarms.
+
+ex2_questions_experimental$n_miss <- sum(ex2_questions_experimental$seen_before & !ex2_questions_experimental$reported_seen)
+##Number of misses.
+
+ex2_questions_experimental$n_cr <- sum(!ex2_questions_experimental$seen_before & !ex2_questions_experimental$reported_seen)
+##Number of correct rejections.
+
+n_targets_experimental <- (ex2_questions_experimental$n_hit + ex2_questions_experimental$n_miss)
+##Number of targets 
+
+n_distractors_experimental	<- (ex2_questions_experimental$n_fa + ex2_questions_experimental$n_cr)
+##Number of distractors 
+
+
+indices_experimental <- psycho::dprime(ex2_questions_experimental$n_hit, ex2_questions_experimental$n_fa, ex2_questions_experimental$n_miss, ex2_questions_experimental$n_cr)
+
+ex2_questions_experimental <- cbind(ex2_questions_experimental, indices_experimental)
+
+############################################
+
 dprime(episodic_data_no_na)
 
 filtered_episodic_data <- filter(episodic_data, episodic_data$reported_seen, episodic_data$seen_before)
@@ -290,10 +365,71 @@ filtered_episodic_data <- subset(episodic_data, select = c(seen_before,reported_
 
 filtered_episodic_data <- na.omit(filtered_episodic_data)
 
-dprime(filtered_episodic_data)
+?dprime
+
+indices <- psycho::dprime(ex2_questions$n_hit, ex2_questions$n_fa, ex2_questions$n_miss, ex2_questions$n_cr)
+
+ex2_questions <- cbind(ex2_questions, indices)
+
+ex2_questions_control <- filter(ex2_questions, group == '2')
+
+ex2_questions_experimental <- filter(ex2_questions, group == '1')
 
 
+##dprime loop baby
+
+calc_dprime <- function(hit_rate, false_alarm_rate) {
+  z_hit <- qnorm(hit_rate)
+  z_fa <- qnorm(false_alarm_rate)
+  dprime <- z_hit - z_fa
+  return(dprime)
+}
 
 
+ex2_grouped <- ex2_questions %>% group_by(subject_id, group)
+
+
+# Use a loop to calculate dprime for each group and participant
+results <- data.frame()
+for (group_name in unique(ex2_questions$group)) {
+  for (participant_id in unique(ex2_questions$subject_id)) {
+    # Filter the data by group and participant
+    subset_data <- ex2_grouped %>% filter(group == group_name & subject_id == participant_id)
+    
+    # Calculate hit rate and false alarm rate
+    n_hits <- sum(subset_data$reported_seen & subset_data$seen_before)
+    n_misses <- sum(!subset_data$reported_seen & subset_data$seen_before)
+    n_fas <- sum(subset_data$reported_seen & !subset_data$seen_before)
+    n_cr <- sum(!subset_data$reported_seen & !subset_data$seen_before)
+    hit_rate <- n_hits / (n_hits + n_misses)
+    false_alarm_rate <- n_fas / (n_fas + n_cr)
+    
+    # Calculate dprime
+    dprime <- calc_dprime(hit_rate, false_alarm_rate)
+    
+    # Add the results to a data frame
+    result <- data.frame(group = group_name,
+                         subject_id = participant_id,
+                         dprime = dprime)
+    results <- rbind(results, result)
+  }
+}
+
+# Print the resulting data frame
+print(results)
+
+results <- na.omit(results)
+
+##there was a bunch of na rows for some reason but it seems to be because it was doubling up the subject ids into both groups somehow, removing the na's leaves 29 subjects so it's short one for some reason
+
+```
+
+
+```{r}
+ggplot(results, aes(x = group, y = dprime, color = group)) + 
+  geom_point() + 
+  geom_smooth(method = "lm") +
+  ylim(-2, 2) +
+  labs(x = "Subjects", y = "Dprime", title = "Performance by Group")
 
 ```
