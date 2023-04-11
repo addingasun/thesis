@@ -269,6 +269,9 @@ ex2_questions <- do.call(rbind, ex2_questions)
 
 episodic_data <- fload("C:\\Users\\beera\\Downloads\\thesis_data_5aee5910.json")
 
+ex2_questions <- subset(ex2_questions, subject_id != "5d0dca2c")
+
+## old individual dprime calculation stuff, loop further down runs for all participants
 target <- na.omit(episodic_data$seen_before)
 response <- na.omit(episodic_data$reported_seen)
 
@@ -371,6 +374,8 @@ indices <- psycho::dprime(ex2_questions$n_hit, ex2_questions$n_fa, ex2_questions
 
 ex2_questions <- cbind(ex2_questions, indices)
 
+###groups
+
 ex2_questions_control <- filter(ex2_questions, group == '2')
 
 ex2_questions_experimental <- filter(ex2_questions, group == '1')
@@ -420,7 +425,7 @@ print(results)
 
 results <- na.omit(results)
 
-##there was a bunch of na rows for some reason but it seems to be because it was doubling up the subject ids into both groups somehow, removing the na's leaves 29 subjects so it's short one for some reason
+##there was a bunch of na rows for some reason but it seems to be because it was doubling up the subject ids into both groups somehow, removing the na's leaves 29 subjects so it's short one for some reason, also removed one subject due to extreme poor performance -1.6 dprime
 
 ```
 
@@ -433,3 +438,93 @@ ggplot(results, aes(x = group, y = dprime, color = group)) +
   labs(x = "Subjects", y = "Dprime", title = "Performance by Group")
 
 ```
+
+``` {r}
+
+##RT and trials stuff for ex2
+summary(ex2_trials$rt)
+
+max(ex2_trials$trial_index)
+
+ex2_group_1_trials <- filter(ex2_trials, group == 1)
+
+ex2_group_2_trials <- filter(ex2_trials, group == 2)
+
+summary(ex2_group_1_trials)
+
+
+## response time is stat sig between groups, not surprising bc control doesn't have to press after each response, likely a little worse at task overall.
+t.test(ex2_group_1_trials$rt, ex2_group_2_trials$rt)
+
+
+
+## during trials phase for experiment 2, rt showed the same effect of being significantly lower for the experimental group, not surprising because of same reasons
+
+```
+
+``` {r}
+
+ex2_attention_1 <- filter(ex2_group_1_trials, correct_response == 'm')
+
+ex2_attention_2 <- filter(ex2_group_2_trials, correct_response == 'm')
+
+
+##again no significant rt difference within rt of the attention check trials
+t.test(ex2_attention_1$rt, ex2_attention_2$rt)
+
+## Similarly significant performance difference between groups as experiment 1
+t.test(ex2_attention_1$correct, ex2_attention_2$correct)
+
+
+
+### bysubject stuff
+ex2_questions_bysubject_rt <- ex2_questions %>%
+  group_by(subject_id, group) %>%
+  summarise(mean_rt = mean(rt))
+
+results$rt <- ex2_questions_bysubject_rt$mean_rt
+
+ex2_questions_bysubject_rt <- subset(ex2_questions_bysubject_rt, subject_id != "63b73b26")
+
+ex2_questions_bysubject <- ex2_questions_bysubject_rt %>%
+  group_by(subject_id, group) %>%
+  summarise(mean_rt = mean(rt)) %>%
+
+
+ex2_questions_bysubject <- results %>%
+  group_by(subject_id, group) %>%
+  summarise(dprime = dprime)
+
+ex2_questions_bysubject_1 <- filter(ex2_questions_bysubject, group == 1)
+
+ex2_questions_bysubject_2 <- filter(ex2_questions_bysubject, group == 2)
+
+summary(questions_bysubject_1)
+
+summary(questions_bysubject_2)
+
+
+## GRAPH !!! has RT and dprime values for both groups in exp 2, shows the null effect vibe
+
+ggplot(results, aes(x = rt, y = dprime, color = group)) + 
+  geom_point() + 
+  geom_smooth(method = "lm") +
+  labs(x = "Response Time (ms)", y = "DPrime", title = "Performance by Group")
+
+
+```
+
+``` {r}
+
+ggplot(results, aes(x = group, y = dprime, color = group)) + 
+  geom_col() + 
+  labs(x = "Groups", y = "DPrime", title = "Performance by Group")
+
+```
+
+
+
+
+
+
+
