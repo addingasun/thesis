@@ -20,6 +20,8 @@ library(dplyr)
 library(tidyr)
 library(car)
 library(psycho)
+library(tidyverse)
+
 
 ```
 
@@ -30,8 +32,8 @@ You can also embed plots, for example:
 ```{r}
 
 ##fully set up to load the folder of json files and create 2 new dataframes for questions and trials portion of experiment, test_data_new is not needed
-
-test_data_new <- fload("C:\\Users\\beera\\Downloads\\data__2023-02-07T17_07_36.543Z_.json", max_simplify_lvl = "vector")
+#single fload
+# test_data_new <- fload("C:\\Users\\beera\\Downloads\\data__2023-02-07T17_07_36.543Z_.json", max_simplify_lvl = "vector")
 
 datafiles <- list.files("C:\\Users\\beera\\Downloads\\Thesis\\ex1_JSON_files", pattern='*.json', full.names = TRUE)
 
@@ -116,7 +118,34 @@ chisq.test(table(group_1_questions$quality, group_2_questions$quality))
 ## group 2 is higher, 0.000239
 t.test(group_1_questions$correct, group_2_questions$correct)
 
+group_1_questions <- subset(group_1_questions, subject_id != "63d6e094")
+group_1_questions <- subset(group_1_questions, subject_id != "63e64e1d")
+group_1_questions <- subset(group_1_questions, subject_id != "63f47754")
+
+group_2_questions <- subset(group_2_questions, subject_id != "63d6e094")
+group_2_questions <- subset(group_2_questions, subject_id != "63e64e1d")
+group_2_questions <- subset(group_2_questions, subject_id != "63f47754")
+
+
+group_1_trials <- subset(group_1_trials, subject_id != "63d6e094")
+group_1_trials <- subset(group_1_trials, subject_id != "63e64e1d")
+group_1_trials <- subset(group_1_trials, subject_id != "63f47754")
+
+group_2_trials <- subset(group_2_trials, subject_id != "63d6e094")
+group_2_trials <- subset(group_2_trials, subject_id != "63e64e1d")
+group_2_trials <- subset(group_2_trials, subject_id != "63f47754")
+
+attention_1 <- subset(attention_1, subject_id != "63d6e094")
+attention_1 <- subset(attention_1, subject_id != "63e64e1d")
+attention_1 <- subset(attention_1, subject_id != "63f47754")
+
+attention_2 <- subset(attention_2, subject_id != "63d6e094")
+attention_2 <- subset(attention_2, subject_id != "63e64e1d")
+attention_2 <- subset(attention_2, subject_id != "63f47754")
+
 ```
+
+
 ```{r}
 
 model <- lm(correct ~ group, data = questions)
@@ -167,7 +196,7 @@ attention_1 <- filter(group_1_trials, correct_response == 'm')
 attention_2 <- filter(group_2_trials, correct_response == 'm')
 
 
-##seeing if correctness at the attention checks performance varies insignificant p = 0.25
+##seeing if correctness at the attention checks performance varies, is significant at 0.003, means are .93 and .98
 t.test(attention_1$correct, attention_2$correct)
 
 ##seeing if rt varies between groups on attention checks insignificant p = 0.8, since rt varies overall but not on attention checks this shows that the attention checks seem to be working and that the rt difference overall is just being driven by the lack of attention checks for the control group and the experimental group being faster with the non attention trials
@@ -207,6 +236,8 @@ questions_bysubject_rt <- questions %>%
   group_by(subject_id, group) %>%
   summarise(mean_rt = mean(rt))
 
+questions_bysubject_rt$mean_rt <- questions_bysubject_rt$
+
 
 questions_bysubject <- questions %>%
   group_by(subject_id, group) %>%
@@ -226,6 +257,17 @@ ggplot(questions_bysubject, aes(x = questions_bysubject_rt$mean_rt, y = percent_
   ylim(0, 100) +
   xlim(0, 10000) +
   labs(x = "Response Time (ms)", y = "Percentage Correct", title = "Performance by Group")
+
+##removin all participants at 0% performance
+questions_bysubject <- subset(questions_bysubject, subject_id != "63d6e094")
+questions_bysubject <- subset(questions_bysubject, subject_id != "63e64e1d")
+questions_bysubject <- subset(questions_bysubject, subject_id != "63f47754")
+
+questions_bysubject_rt <- subset(questions_bysubject_rt, subject_id != "63d6e094")
+questions_bysubject_rt <- subset(questions_bysubject_rt, subject_id != "63e64e1d")
+questions_bysubject_rt <- subset(questions_bysubject_rt, subject_id != "63f47754")
+
+
 ##could be a rt effect on performance between groups, perhaps keypressing effects rt which affects performance. higher rt = more likely correct due to more accurate episodic recollection of sequence
 
 ## add 15 or 20 people per group 
@@ -267,8 +309,12 @@ for (h in 1:length(ex2_datafiles)) {
 ex2_trials <- do.call(rbind, ex2_trials)
 ex2_questions <- do.call(rbind, ex2_questions)
 
+
+##single floading
 episodic_data <- fload("C:\\Users\\beera\\Downloads\\thesis_data_5aee5910.json")
 
+
+##really really outlier participant, had like a -1.6 dprime
 ex2_questions <- subset(ex2_questions, subject_id != "5d0dca2c")
 
 ## old individual dprime calculation stuff, loop further down runs for all participants
@@ -286,7 +332,7 @@ d_prime <- qnorm(hit_rate) - qnorm(fa_rate)
 
 ##use psycho package, can use same fload looping thing
 
-
+#### both groups ex2_questions dprime calculation
 ex2_questions$n_hit	<- sum(ex2_questions$seen_before & ex2_questions$reported_seen)
 ##Number of hits
 
@@ -360,6 +406,7 @@ ex2_questions_experimental <- cbind(ex2_questions_experimental, indices_experime
 
 ############################################
 
+##this is all random messing around stuff you can ignore
 dprime(episodic_data_no_na)
 
 filtered_episodic_data <- filter(episodic_data, episodic_data$reported_seen, episodic_data$seen_before)
@@ -374,7 +421,7 @@ indices <- psycho::dprime(ex2_questions$n_hit, ex2_questions$n_fa, ex2_questions
 
 ex2_questions <- cbind(ex2_questions, indices)
 
-###groups
+#######grouping, needed to run above code
 
 ex2_questions_control <- filter(ex2_questions, group == '2')
 
@@ -425,16 +472,30 @@ print(results)
 
 results <- na.omit(results)
 
+results <- subset(results, subject_id != "5d0dca2c")
+
+
 ##there was a bunch of na rows for some reason but it seems to be because it was doubling up the subject ids into both groups somehow, removing the na's leaves 29 subjects so it's short one for some reason, also removed one subject due to extreme poor performance -1.6 dprime
+
+
+results_1 <- filter(results, group == "1")
+
+results_2 <- filter(results, group == "2")
+
+##the dprimes do not significantly vary
+t.test(results_1$dprime, results_2$dprime)
 
 ```
 
 
 ```{r}
+
+
 ggplot(results, aes(x = group, y = dprime, color = group)) + 
   geom_point() + 
+    geom_errorbar(aes(ymin = dprime_min - se, ymax = dprime_max + se), width = 0.2, position = position_dodge(width = 0.9)) +
   geom_smooth(method = "lm") +
-  ylim(-2, 2) +
+  ylim(-1, 2) +
   labs(x = "Subjects", y = "Dprime", title = "Performance by Group")
 
 ```
@@ -486,22 +547,16 @@ results$rt <- ex2_questions_bysubject_rt$mean_rt
 
 ex2_questions_bysubject_rt <- subset(ex2_questions_bysubject_rt, subject_id != "63b73b26")
 
-ex2_questions_bysubject <- ex2_questions_bysubject_rt %>%
-  group_by(subject_id, group) %>%
-  summarise(mean_rt = mean(rt)) %>%
+ex2_questions_bysubject_rt <- subset(ex2_questions_bysubject_rt, subject_id != "5d0dca2c")
 
-
-ex2_questions_bysubject <- results %>%
-  group_by(subject_id, group) %>%
-  summarise(dprime = dprime)
 
 ex2_questions_bysubject_1 <- filter(ex2_questions_bysubject, group == 1)
 
 ex2_questions_bysubject_2 <- filter(ex2_questions_bysubject, group == 2)
 
-summary(questions_bysubject_1)
+summary(ex2_questions_bysubject_1)
 
-summary(questions_bysubject_2)
+summary(ex2_questions_bysubject_2)
 
 
 ## GRAPH !!! has RT and dprime values for both groups in exp 2, shows the null effect vibe
@@ -516,13 +571,60 @@ ggplot(results, aes(x = rt, y = dprime, color = group)) +
 
 ``` {r}
 
-ggplot(results, aes(x = group, y = dprime, color = group)) + 
-  geom_col() + 
-  labs(x = "Groups", y = "DPrime", title = "Performance by Group")
+ggplot(results, aes(x = group, y = dprime, fill = group)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  geom_errorbar(aes(ymin = dprime_min - se, ymax = dprime_max + se), width = 0.2, position = position_dodge(width = 0.9)) +
+  labs(title = "Performance by group",
+       x = "Group",
+       y = "dprime")
+
+results$sd <- sd(results$dprime)
+
+se <- results$sd / sqrt(length(results$dprime))
+
+
+results_1$dprime_min <- min(results_1$dprime)
+
+results_2$dprime_min <- min(results_2$dprime)
+
+results_1$dprime_max <-max(results_1$dprime)
+
+results_2$dprime_max <- max(results_2$dprime)
+
+
+results_1$sd <- sd(results_1$dprime)
+
+results_2$sd <- sd(results_2$dprime)
+
+results_1$se <- results_1$sd / sqrt(length(results_1$dprime))
+
+results_2$se <- results_2$sd / sqrt(length(results_2$dprime))
+
+
+
+
 
 ```
 
+```{r}
 
+
+ggplot(results_1, aes(x = group, y = dprime, fill = group)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  geom_errorbar(aes(ymin = dprime_min - se, ymax = dprime_max + se), width = 0.2, position = position_dodge(width = 0.9)) +
+  ylim(-0.25, 2.1) +
+  labs(title = "Performance by group",
+       x = "Group",
+       y = "dprime")
+
+ggplot(results_2, aes(x = group, y = dprime, fill = group)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  geom_errorbar(aes(ymin = dprime_min - se, ymax = dprime_max + se), width = 0.2, position = position_dodge(width = 0.9)) +
+  labs(title = "Performance by group",
+       x = "Group",
+       y = "dprime")
+
+````
 
 
 
